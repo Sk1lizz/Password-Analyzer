@@ -2,7 +2,7 @@
 
 """
 
-class creative_files:
+class create_files:
 
     __name: str # 
     __dir_setting: str #
@@ -12,5 +12,8 @@ class creative_files:
     __file_setting: str #
     __file_history: str # 
 
-    def __init__(self) -> None:
+    def __init__(self, config_dict: dict | None = None) -> None:
+        if config_dict is None:
+            raise SystemExit("byebye")
+        
         pass
