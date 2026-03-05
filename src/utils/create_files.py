@@ -1,6 +1,22 @@
+import platform
+from pathlib import Path
+import os
+import json
+
+
 """
 
 """
+
+config_data = {
+    "name": "PasswordAnalyzer",
+    "version": "1.0.0",
+    "language": "ru-RU",
+    "history-amount": "5",
+    "theme": "system"
+}
+
+data_language = ""
 
 class create_files:
 
@@ -11,9 +27,78 @@ class create_files:
 
     __file_setting: str #
     __file_history: str # 
+    __file_language: str # 
 
     def __init__(self, config_dict: dict | None = None) -> None:
         if config_dict is None:
             raise SystemExit("byebye")
         
+
+        #
+        self.__name = config_dict["name"]
+
+        # 
+        path_dict = config_dict["path"]
+
+        self.__dir_setting = path_dict["setting"]
+        self.__dir_common = path_dict["common"]
+        self.__dir_lang = path_dict["language"]
+
+        # 
+        name_file_dict = config_dict["name_file"]
+
+        self.__file_setting = name_file_dict["setting"]
+        self.__file_history = name_file_dict["history"]
+        self.__file_language = name_file_dict["language"]
+
+        return 
+    
+
+    def create_file(self) -> bool:
+        try:
+            name_platform = self.get_platform()
+
+            if name_platform == "Windows":
+                path = Path(os.getenv("APPDATA"))
+            
+            main_path = path / f"{self.__name}"
+
+            path_setting = main_path / f"{self.__dir_setting}"
+            path_lang = main_path / f"{self.__dir_lang}"
+            path_common = main_path / f"{self.__dir_common}"
+
+            path_to_history = path_common / f"{self.__file_history}"
+            path_to_lang = path_lang / f"{self.__file_language}"
+            path_to_config = path_setting / f"{self.__file_setting}"
+
+
+            path_to_history.parent.mkdir(parents=True, exist_ok=True)
+            path_to_lang.parent.mkdir(parents=True, exist_ok=True)
+            path_to_config.parent.mkdir(parents=True, exist_ok=True)
+
+            if not path_to_history.exists():
+                pass
+
+            if not path_to_lang.exists():
+                pass
+
+            if not path_to_config.exists():
+                pass
+
+            return True
+
+        except:
+            return False
+
+
+    
+    def get_platform(self) -> str:
+        name_platform = platform.system()
+
+        name = ["Windows", "Linux"]
+
+        if name_platform in name:
+            return name_platform
+        
         pass
+
