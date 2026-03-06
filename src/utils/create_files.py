@@ -16,18 +16,24 @@ config_data = {
     "theme": "system"
 }
 
-data_language = ""
+language_data = ''
+
+history_data = ""
 
 class create_files:
 
     __name: str # 
-    __dir_setting: str #
+    __dir_setting: str # 
     __dir_common: str # 
-    __dir_lang: str #
+    __dir_lang: str # 
 
-    __file_setting: str #
+    __file_setting: str # 
     __file_history: str # 
     __file_language: str # 
+
+    path_to_config: str # 
+    path_to_history: str # 
+    path_to_language: str # 
 
     def __init__(self, config_dict: dict | None = None) -> None:
         if config_dict is None:
@@ -71,19 +77,24 @@ class create_files:
             path_to_lang = path_lang / f"{self.__file_language}"
             path_to_config = path_setting / f"{self.__file_setting}"
 
+            self.path_to_config = path_to_config
+            self.path_to_history = path_to_history
+            self.path_to_language = path_lang
+
 
             path_to_history.parent.mkdir(parents=True, exist_ok=True)
             path_to_lang.parent.mkdir(parents=True, exist_ok=True)
             path_to_config.parent.mkdir(parents=True, exist_ok=True)
 
             if not path_to_history.exists():
-                pass
+                path_to_history.write_text(data=history_data, encoding="utf-8")
 
             if not path_to_lang.exists():
-                pass
+                path_to_lang.write_text(data=language_data, encoding="utf-8")
 
             if not path_to_config.exists():
-                pass
+                with open(path_to_config, "w", encoding="utf-8") as __file:
+                    json.dump(config_data, __file, indent=4, ensure_ascii=False)
 
             return True
 
@@ -102,3 +113,12 @@ class create_files:
         
         pass
 
+
+    def get_path(self) -> dict:
+        result = dict()
+
+        result["setting"] = str(self.path_to_config).replace("\\", "/")
+        result["language"] = str(self.path_to_language).replace("\\", "/")
+        result["history"] = str(self.path_to_history).replace("\\", "/")
+
+        return result
