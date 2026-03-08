@@ -106,3 +106,6 @@ class edit_data:
             return True
         except:
             return False
+    
+    def get_lang(self):
+        pass
