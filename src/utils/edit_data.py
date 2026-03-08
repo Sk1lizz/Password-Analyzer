@@ -83,3 +83,26 @@ class edit_data:
             return True
         except:
             return False
+        
+    def edit_config(self, name: str | None = None, arg: str | None = None) -> bool:
+        if name is None or arg is None:
+            return False
+        
+        try:
+            with open(self.path_to_config, mode="r", encoding="utf-8") as __file:
+                data = json.load(__file)
+        except:
+            return False
+        
+        if not name in data.keys():
+            return False
+        
+        data[name] = arg
+
+        try:
+            with open(self.path_to_config, mode="w", encoding="utf-8") as __file:
+                json.dump(data, __file, indent=4, ensure_ascii=False)
+
+            return True
+        except:
+            return False
