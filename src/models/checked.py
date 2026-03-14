@@ -6,37 +6,23 @@ import re
 
 class Check:
 
-    def __init__(self) -> None:
+    level: int
+
+    def __init__(self, level: int = 1) -> None:
         return
     
     def first_check(self, password: str | None = None) -> dict:
         result = dict()
         
-        if password is None:
-            return result
+        if password is None: return result
         
-        
-
-        """
-        ----- dict model -----
-        
-    {
-        "score": int,
-        "message": {
-            name: bool
-        }
-
-    }
-
-        """
 
         score = 0
 
         message = dict()
         list_name = ["len-8", "len-16", "A-Z", "a-z", "!@$", "0-9"]
 
-        for i in list_name:
-            message[i] = False
+        for name in list_name: message[name] = False
 
         if len(password) >= 8:
             score += 15
@@ -84,6 +70,41 @@ class Check:
         else:
             score += -5
 
+
+        result["score"] = score
+        result["message"] = message
+
+        return result
+    
+    
+    def second_check(self, password: str | None = None, common_file: list | None = None) -> dict:
+        result = dict()
+
+        if password is None or common_file is None: return result
+
+        score = 0
+        message = dict()
+
+        message["clear"] = True
+        message["1in1"] = False
+        message["like"] = ""
+
+        for name in common_file:
+            if name.lower() == password.lower():
+                score += -25
+                message["clear"] = False
+                message["1in1"] = True
+                break
+
+        if message["clear"]:
+            for name in common_file:
+                if password.lower() in name.lower() and len(password) >= (len(name)+4):
+                    score += -10
+                    message["clear"] = False
+                    message["like"] = name
+
+        if score > -1:
+            score += 10
 
         result["score"] = score
         result["message"] = message

@@ -8,6 +8,7 @@ class config:
     SETTING = "setting"
     COMMON = "common_file"
     LANG = "language"
+    COMMON_FILE = "common"
 
     FILE_SETTING = "config.json"
     HISTORY_FILE = "history.hist"
@@ -26,6 +27,7 @@ class config:
         __config_file_path["setting"] = self.SETTING
         __config_file_path["common"] = self.COMMON
         __config_file_path["language"] = self.LANG
+        __config_file_path["common-files"] = self.COMMON_FILE
 
         __config_file_name["setting"] = self.FILE_SETTING
         __config_file_name["history"] = self.HISTORY_FILE

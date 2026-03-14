@@ -26,6 +26,7 @@ class create_files:
     __dir_setting: str # 
     __dir_common: str # 
     __dir_lang: str # 
+    __dir_common_files: str # 
 
     __file_setting: str # 
     __file_history: str # 
@@ -34,6 +35,7 @@ class create_files:
     path_to_config: str # 
     path_to_history: str # 
     path_to_language: str # 
+    path_to_common_file: str # 
 
     def __init__(self, config_dict: dict | None = None) -> None:
         if config_dict is None:
@@ -49,6 +51,7 @@ class create_files:
         self.__dir_setting = path_dict["setting"]
         self.__dir_common = path_dict["common"]
         self.__dir_lang = path_dict["language"]
+        self.__dir_common_files = path_dict["common-files"]
 
         # 
         name_file_dict = config_dict["name_file"]
@@ -73,6 +76,8 @@ class create_files:
             path_lang = main_path / f"{self.__dir_lang}"
             path_common = main_path / f"{self.__dir_common}"
 
+            path_common_file = path_common / f"{self.__dir_common_files}"
+
             path_to_history = path_common / f"{self.__file_history}"
             path_to_lang = path_lang / f"{self.__file_language}"
             path_to_config = path_setting / f"{self.__file_setting}"
@@ -80,11 +85,14 @@ class create_files:
             self.path_to_config = path_to_config
             self.path_to_history = path_to_history
             self.path_to_language = path_lang
+            self.path_to_common_file = path_common_file
 
 
             path_to_history.parent.mkdir(parents=True, exist_ok=True)
             path_to_lang.parent.mkdir(parents=True, exist_ok=True)
             path_to_config.parent.mkdir(parents=True, exist_ok=True)
+
+            path_common_file.mkdir(parents=True, exist_ok=True)
 
             if not path_to_history.exists():
                 path_to_history.write_text(data=history_data, encoding="utf-8")
@@ -120,5 +128,6 @@ class create_files:
         result["setting"] = str(self.path_to_config).replace("\\", "/")
         result["language"] = str(self.path_to_language).replace("\\", "/")
         result["history"] = str(self.path_to_history).replace("\\", "/")
+        result["common"] = str(self.path_to_common_file).replace("\\", "/")
 
         return result
