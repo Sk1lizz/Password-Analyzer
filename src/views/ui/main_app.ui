@@ -17,7 +17,11 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>PasswordAnalyzer</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>../../../resources/icons/icon-white.png</normaloff>../../../resources/icons/icon-white.png</iconset>
   </property>
   <property name="styleSheet">
    <string notr="true">QMainWindow {
@@ -265,8 +269,8 @@ QProgressBar::chunk {
     </item>
     <item>
      <layout class="QGridLayout" name="gridLayout_3">
-      <item row="0" column="2">
-       <spacer name="horizontalSpacer_4">
+      <item row="0" column="0" rowspan="3">
+       <spacer name="horizontalSpacer_3">
         <property name="orientation">
          <enum>Qt::Orientation::Horizontal</enum>
         </property>
@@ -281,8 +285,34 @@ QProgressBar::chunk {
         </property>
        </spacer>
       </item>
-      <item row="0" column="0">
-       <spacer name="horizontalSpacer_3">
+      <item row="2" column="1" colspan="3">
+       <widget class="QLabel" name="lbl_full_result_3">
+        <property name="text">
+         <string>💪 Надёжность: СРЕДНИЙ</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignmentFlag::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <spacer name="horizontalSpacer_13">
+        <property name="orientation">
+         <enum>Qt::Orientation::Horizontal</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Policy::Fixed</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>15</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="0" column="4" rowspan="3">
+       <spacer name="horizontalSpacer_4">
         <property name="orientation">
          <enum>Qt::Orientation::Horizontal</enum>
         </property>
@@ -306,14 +336,39 @@ QProgressBar::chunk {
  ✅ Строчные буквы: a-z
 ✅ Цифры: 0-9
 ❌ Спецсимволы: !@#$%
-Энтропия: 12.312 бит 
-
-💪 Надёжность: СРЕДНИЙ</string>
+Энтропия: 12.312 бит </string>
         </property>
         <property name="alignment">
          <set>Qt::AlignmentFlag::AlignCenter</set>
         </property>
        </widget>
+      </item>
+      <item row="0" column="3">
+       <widget class="QLabel" name="lbl_full_result_2">
+        <property name="text">
+         <string>Схожесть с популярными паролями: 
+Статус: отсутсвует</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignmentFlag::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1" colspan="3">
+       <spacer name="horizontalSpacer_16">
+        <property name="orientation">
+         <enum>Qt::Orientation::Vertical</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Policy::Fixed</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>15</height>
+         </size>
+        </property>
+       </spacer>
       </item>
      </layout>
     </item>
@@ -563,6 +618,8 @@ QProgressBar::chunk {
    </layout>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="config.qrc"/>
+ </resources>
  <connections/>
 </ui>

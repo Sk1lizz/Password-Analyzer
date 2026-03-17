@@ -1,7 +1,7 @@
-test_dict = {
-    "1":{
-        "h": "f"
-    }
-}
+import src.models.generate as gr
 
-print(test_dict.items())
+test_gn = gr.generate_password()
+
+print(test_gn.set_setting(russian_letters=False, length=32))
+
+print(test_gn.generate_password())
