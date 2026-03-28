@@ -3,7 +3,7 @@ import src.utils.create_files as create_file
 import src.models.config as cfg
 
 if __name__ == "__main__":
-    test_cfg = cfg.config()
+    """test_cfg = cfg.config()
 
     path = test_cfg.get_config_path()
 
@@ -16,6 +16,10 @@ if __name__ == "__main__":
     main = window.setting()
 
     main.set_config(path)
+    main.start()"""
+
+    main = window.main()
+
     main.start()
 
 

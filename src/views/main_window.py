@@ -14,11 +14,35 @@ class main_app(QMainWindow):
     
     """
 
+    password_hide: bool
+
     def __init__(self) -> None:
         super(main_app, self).__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-        
+
+        self.password_hide = True
+
+        self.set_default_text()
+        self.hide_password(change=False)
+
+        self.ui.btn_password.clicked.connect(lambda function: self.hide_password(change=True))
+    
+
+    def set_default_text(self) -> None:
+        self.result = "Результат: "
+        self.ui.lbl_result.setText(self.result)
+
+    def hide_password(self, change: bool = False ) -> None:
+
+        if change: self.password_hide = not self.password_hide
+
+        if not self.password_hide:
+            self.ui.le_password.setEchoMode(QLineEdit.EchoMode.Normal)
+
+        else:
+            self.ui.le_password.setEchoMode(QLineEdit.EchoMode.Password)
+
 
 
 class setting_app(QDialog):
@@ -179,4 +203,12 @@ class setting:
     def set_config(self, dict_config: dict) -> None:
         self.window.set_paths(dict_config)
 
-        
+class main:
+    def __init__(self) -> None:
+        self.app = QApplication(sys.argv)
+
+        self.window = main_app()
+        self.window.show()
+
+    def start(self) -> None:
+        sys.exit(self.app.exec())
