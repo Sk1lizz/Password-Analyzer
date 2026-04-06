@@ -21,8 +21,3 @@ if __name__ == "__main__":
     main = window.main()
 
     main.start()
-
-
-
-    
-

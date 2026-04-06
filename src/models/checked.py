@@ -1,4 +1,5 @@
 import re
+import math
 
 """
 
@@ -20,7 +21,7 @@ class Check:
         score = 0
 
         message = dict()
-        list_name = ["len-8", "len-16", "A-Z", "a-z", "!@$", "0-9"]
+        list_name = ["len-8", "A-Z", "a-z", "!@$", "0-9", "entropy"]
 
         for name in list_name: message[name] = False
 
@@ -30,7 +31,6 @@ class Check:
 
             if len(password) >= 16:
                 score += 15
-                message["len-16"] = True
             
         else:
             score += -5
@@ -70,8 +70,23 @@ class Check:
         else:
             score += -5
 
+        entropy = self.entropy_check(password=password)
 
-        result["score"] = score
+        entropy_list = {"numbers": entropy,
+                        "result": False} # [numbers, result]
+
+        if entropy < 65.1:
+            entropy_list["result"] = False
+            score += -10
+        else:
+            entropy_list["result"] = True
+            score += 15
+
+        message["entropy"] = entropy_list
+
+
+
+        result["score"] = score # max -- 90
         result["message"] = message
 
         return result
@@ -110,3 +125,30 @@ class Check:
         result["message"] = message
 
         return result
+    
+    def entropy_check(self, password: str | None = None) -> float:
+        if password is None: return -1
+
+        number_bits = 0
+
+        alphabet = 0
+
+        alphabet_dictionaries = {
+            r"[A-Z]": 26,
+            r"[a-z]": 26,
+            r"[А-Я]": 33,
+            r"[а-я]": 33,
+            r"[!\"#$%&\'()*+,\-./:;<=>?@\[\\\]^_`{|}~]": 40,
+            r"\d": 10
+        }
+
+        for i in alphabet_dictionaries.keys():
+            if bool(re.search(i, password)):
+                alphabet += int(alphabet_dictionaries[str(i)])
+
+        if alphabet <= 0: alphabet = 1
+
+
+        number_bits = len(password) * math.log2(alphabet)
+
+        return round(number_bits, 2)
