@@ -33,7 +33,7 @@ class main_app(QMainWindow):
 
         self.ui.btn_password.clicked.connect(lambda function: self.hide_password(change=True))
         self.ui.le_password.textChanged.connect(self.start_program)
-        self.ui.btn_copy.clicked.connect()
+        self.ui.btn_copy.clicked.connect(self.copy)
     
 
     def set_default_text(self) -> None:
@@ -43,9 +43,17 @@ class main_app(QMainWindow):
         self.none_text = "🌫️"
         self.result_text = self.none_text
 
-        self.main_text = "💪 Надёжность:"
+        self.main_text = "💪 Надёжность: "
         self.text = f""" {self.result_text} Длина: 12 символов\n{self.result_text} Заглавные буквы: A-Z\n{self.result_text} Строчные буквы: a-z\n{self.result_text} Цифры: 0-9\n{self.result_text} Спецсимволы: !@#$%\n{self.result_text} Энтропия: 0 бит """
-        self.text_2 = "Схожесть с популярными паролями: \nСтатус:"
+        self.text_2 = "Схожесть с популярными паролями: \nСтатус: "
+
+        style_status = f"""
+            QProgressBar::chunk {{
+                background-color: #FFFFFF;
+            }}
+        """
+
+        self.ui.pb_bar.setStyleSheet(style_status)
         
         self.ui.lbl_result.setText(self.result)
         self.ui.lbl_full_result.setText(self.text)
@@ -62,7 +70,7 @@ class main_app(QMainWindow):
         else:
             self.ui.le_password.setEchoMode(QLineEdit.EchoMode.Password)
 
-    def start_program(self):
+    def start_program(self) -> None:
         check = Check()
 
         password = self.ui.le_password.text()
@@ -74,7 +82,7 @@ class main_app(QMainWindow):
         first_check = check.first_check(password=password)
 
         message = first_check["message"]
-        print(message)
+        score_first = int(first_check["score"])
         main_text = f"symbol1 Длина: len символов\nsymbol2 Заглавные буквы: A-Z\nsymbol3 Строчные буквы: a-z\nsymbol4 Цифры: 0-9\nsymbol5 Спецсимволы: !@#$%\nsymbol6 Энтропия: entropy бит"
 
         len_password = str(len(password))
@@ -113,7 +121,134 @@ class main_app(QMainWindow):
 
         self.ui.lbl_full_result.setText(main_text)
 
+        edit = edit_data(self.paths)
+
+        common_level = edit.get_config("common-level")
+
+        if not common_level in ["1", "2", "3"]:
+            common_level = "1"
+
+        common_file = edit.get_common_file(int(common_level))
+
+        second_check = check.second_check(password=password, common_file=common_file)
+
+        score_second = int(second_check["score"])
+
+        message = second_check["message"]
+
+        text = "Схожесть с популярными паролями: \n<symbol> Статус: <status>"
+
+        if bool(message["clear"]):
+            text = text.replace("<status>", "Отсутвует").replace("<symbol>", f"{self.true_text}")
+        
+        elif bool(message["1in1"]):
+            text = text.replace("<symbol>", f"{self.false_text}").replace("<status>", "Точное совпадение")
+        
+        else:
+            password_liked = message["like"]
+
+            text = text.replace("<status>", f"Похож\nПароль похож на {password_liked}").replace("<symbol>", f"{self.false_text}")
+
+        self.ui.lbl_full_result_2.setText(text)
+
+        score = int(score_first) + int(score_second)
+
+        percent = score
+
+        if score <= 10:
+            status_text = "Ужасный пароль"
+            status = "УЖАСНО"
+            color = "#FF0000"
+
+        elif score <= 20:
+            status_text = "Очень плохой пароль"
+            status = "УЖАСНО"
+            color = "#FF3333"
+        
+        elif score <= 30:
+            status_text = "Плохой пароль"
+            status = "ПЛОХО"
+            color = "#FF8000"
+        
+        elif score <= 40:
+            status_text = "Нормальный пароль"
+            status = "НОРМАЛЬНО"
+            color = "#FFFF00"
+        
+        elif score <= 50:
+            status_text = "Хороший пароль"
+            status = "ХОРОШИЙ"
+            color = "#FFFF66"
+        
+        elif score <= 75:
+            status_text = "Отличный пароль"
+            status = "ОТЛИЧНО"
+            color = "#00FF80"
+        
+        elif score <= 95:
+            status_text = "Превосходный пароль"
+            status = "ОТЛИЧНО"
+            color = "#80FF00"
+        
+        elif score == 100:
+            status_text = "Самый защищеный пароль"
+            status = "ПРЕВОСХОДНО"
+            color = "#00FF00"
+        
+        else: 
+            status_text = "Ошибка"
+            status = "ОШИБКА"
+            color = "#FFFFFF"
+
+
+        style_status = f"""
+            QProgressBar::chunk {{
+                background-color: {color};
+            }}
+        """
+
+        self.ui.pb_bar.setStyleSheet(style_status)
+
+        if percent >= 0:
+            self.ui.pb_bar.setValue(percent)
+
+            text = self.result + f"{score}%\n"
+
+        else:
+            self.ui.pb_bar.setValue(0)
+            text = self.result + f"0%\n"
+
+        text += f"{status_text}"
+
+        self.ui.lbl_result.setText(text)
+
+        text = self.main_text
+
+        text += status
+
+        self.ui.lbl_full_result_3.setText(text)
+
+
+    def set_paths(self, paths: dict | None = None) -> None:
+        if paths is None:
+            return
+        
+        self.paths = paths
+
     
+    def copy(self) -> None:
+
+        if (self.ui.le_password.text()) in ["", " ", None]: return None
+        style = "background-color: #32CD32;"
+        style_normal = "background-color: #2d2d2d;"
+
+        clipboard = QApplication.clipboard()
+        clipboard.setText(self.ui.le_password.text())
+        
+        self.ui.btn_copy.setText("✅ Скопировано!")
+        self.ui.btn_copy.setStyleSheet(style)
+        QTimer.singleShot(1000, lambda: self.ui.btn_copy.setText("📋 Скопировать"))
+        QTimer.singleShot(1000, lambda: self.ui.btn_copy.setStyleSheet(style_normal))
 
 
 
@@ -285,3 +420,6 @@ class main:
 
     def start(self) -> None:
         sys.exit(self.app.exec())
+
+    def set_config(self, dict_config: dict) -> None:
+        self.window.set_paths(dict_config)

@@ -113,10 +113,11 @@ class Check:
 
         if message["clear"]:
             for name in common_file:
-                if password.lower() in name.lower() and len(password) >= (len(name)+4):
+                if password.lower() in name.lower() and len(password) <= (len(name)+4):
                     score += -10
                     message["clear"] = False
                     message["like"] = name
+                    break
 
         if score > -1:
             score += 10

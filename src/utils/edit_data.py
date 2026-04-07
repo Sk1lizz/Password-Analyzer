@@ -118,7 +118,9 @@ class edit_data:
         result = list()
 
         dict_level = {
-            1: "test.txt"
+            1: "1.txt",
+            2: "2.txt",
+            3: "3.txt"
         }
 
         if level is None or not level in dict_level.keys(): return result

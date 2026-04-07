@@ -18,6 +18,18 @@ if __name__ == "__main__":
     main.set_config(path)
     main.start()"""
 
+    test_cfg = cfg.config()
+
+    path = test_cfg.get_config_path()
+
+    test_cr = create_file.create_files(config_dict=path)
+
+    test_cr.create_file()
+
+    path = test_cr.get_path()
+
     main = window.main()
+
+    main.set_config(path)
 
     main.start()

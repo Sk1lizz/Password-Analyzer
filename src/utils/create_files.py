@@ -13,7 +13,8 @@ config_data = {
     "version": "1.0.0",
     "language": "ru-RU",
     "history-amount": "5",
-    "theme": "system"
+    "theme": "system",
+    "common-level": "3"
 }
 
 language_data = ''
