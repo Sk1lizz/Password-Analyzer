@@ -10,7 +10,8 @@ import sys
 import darkdetect
 
 from PySide6.QtWidgets import QApplication, QMainWindow, QLineEdit, QDialog
-from PySide6.QtCore import QTimer
+from PySide6.QtCore import QTimer, Signal
+
 
 class main_app(QMainWindow):
     
@@ -276,11 +277,12 @@ class main_app(QMainWindow):
         generate.set_paths(paths=self.paths)
         generate.theme()
 
-        self.hide()
+        #self.hide()
         generate.show()
-        generate.destroyed.connect(self.show)
+        
+        #generate.destroyed.connect(self.show)
 
-        self.theme()
+        generate.destroyed.connect(self.theme)
 
 
     def open_setting(self) -> None:
@@ -653,6 +655,8 @@ class generate_app(QMainWindow):
     
     """
 
+    closed = Signal()
+
     def __init__(self, parent=None) -> None:
         super(generate_app, self).__init__(parent)
         self.ui = generate_Ui()
@@ -671,6 +675,7 @@ class generate_app(QMainWindow):
 
 
     def set_default(self) -> None:
+        self.setWindowTitle("PasswordAnalyzer - generate")
         self.password_dafault = ""
         self.length = 16
         self.text_length = "16 симв."
@@ -748,14 +753,18 @@ class generate_app(QMainWindow):
         setting.set_default_setting()
         setting.theme()
 
-        
-
         setting.exec()
 
         self.theme()
 
     def theme(self) -> None:
-        self.css_theme_dark = """QMainWindow {
+        self.css_theme_dark = """
+        
+        QWidget {
+                color: #ffffff;
+            }
+            
+            QMainWindow {
                 background-color: #1e1e1e;
             }
 
@@ -893,6 +902,7 @@ class generate_app(QMainWindow):
     def closeEvent(self, event):
         if self.parent():
             self.parent().show()
+        self.closed.emit()
         event.accept()
 
 
