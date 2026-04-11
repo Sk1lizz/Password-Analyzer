@@ -14,8 +14,8 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(500, 700)
-        MainWindow.setMinimumSize(QSize(500, 700))
+        MainWindow.resize(550, 750)
+        MainWindow.setMinimumSize(QSize(550, 750))
         icon = QIcon()
         icon.addFile(u"resources\icons\icon-white.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         MainWindow.setWindowIcon(icon)
@@ -154,7 +154,7 @@ class Ui_MainWindow(object):
 
         self.lbl_full_result = QLabel(self.centralwidget)
         self.lbl_full_result.setObjectName(u"lbl_full_result")
-        self.lbl_full_result.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.lbl_full_result.setAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignVCenter)
 
         self.gridLayout_3.addWidget(self.lbl_full_result, 3, 1, 1, 1)
 

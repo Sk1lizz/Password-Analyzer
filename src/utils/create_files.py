@@ -19,7 +19,7 @@ config_data = {
 
 language_data = ''
 
-history_data = ""
+history_data = "-------------"
 
 class create_files:
 
