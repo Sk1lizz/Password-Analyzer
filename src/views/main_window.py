@@ -25,6 +25,8 @@ class main_app(QMainWindow):
 
     password_hide: bool
 
+    generate = None
+
     def __init__(self) -> None:
         super(main_app, self).__init__()
         self.ui = Ui_MainWindow()
@@ -277,23 +279,30 @@ class main_app(QMainWindow):
         generate.set_paths(paths=self.paths)
         generate.theme()
 
-        #self.hide()
-        generate.show()
-        
-        #generate.destroyed.connect(self.show)
+        self.generate = generate
 
-        generate.destroyed.connect(self.theme)
+        generate.closed.connect(self.theme)
+        generate.save.connect(self.theme)
+
+        generate.show()
 
 
     def open_setting(self) -> None:
-        setting = setting_app()
-        setting.set_paths(paths=self.paths)
-        setting.set_default_setting()
-        setting.theme()
+        if self.generate is None:
+            setting = setting_app()
+            setting.set_paths(paths=self.paths)
+            setting.set_default_setting()
+            setting.theme()
 
-        setting.exec()
+            setting.save_setting.connect(self.theme)
 
-        self.theme()
+            setting.exec()
+
+            self.theme()
+
+        else:
+            self.generate.open_setting()
+        
 
     def theme(self) -> None:
         self.css_theme_dark = """QMainWindow {
@@ -315,7 +324,7 @@ class main_app(QMainWindow):
             QPushButton {
                 background-color: #2d2d2d;
                 color: #ffffff;
-                border: none;
+                border: 1px solid #3c3c3c;
                 border-radius: 4px;
                 padding: 8px 16px;
             }
@@ -330,6 +339,8 @@ class main_app(QMainWindow):
 
             QPushButton:checked {
                 background-color: #094771;
+                color: #ffffff;
+                border: none;
             }
 
             QProgressBar {
@@ -337,6 +348,7 @@ class main_app(QMainWindow):
                 border-radius: 4px;
                 background-color: #2d2d2d;
                 color: #ffffff;
+                text-align: center;
             }
 
             QProgressBar::chunk {
@@ -362,10 +374,6 @@ class main_app(QMainWindow):
 
             QLineEdit:focus {
                 border: 2px solid #1976d2;
-            }
-
-            QLabel {
-                color: #000000;
             }
 
             QPushButton {
@@ -436,6 +444,8 @@ class main_app(QMainWindow):
                 self.none_text = "🌫️"
         
         self.set_default_text()
+
+        self.start_program()
         return None
 
 
@@ -444,6 +454,8 @@ class setting_app(QDialog):
     """
     
     """
+
+    save_setting = Signal()
 
     def __init__(self) -> None:
         super(setting_app, self).__init__()
@@ -505,6 +517,7 @@ class setting_app(QDialog):
     
     def edit_btn(self, state: bool = False, *kwars, **args) -> None:
         if state:
+            self.save_setting.emit()
             text = "Настройки применены!"
             text_btn = self.ui.btn_confirm.text()
 
@@ -656,6 +669,7 @@ class generate_app(QMainWindow):
     """
 
     closed = Signal()
+    save = Signal()
 
     def __init__(self, parent=None) -> None:
         super(generate_app, self).__init__(parent)
@@ -670,6 +684,7 @@ class generate_app(QMainWindow):
         self.ui.sld_lenght.valueChanged.connect(self.edit_text)
 
         self.ui.btn_generate.clicked.connect(self.generate)
+        self.ui.btn_main.clicked.connect(self.close)
         
 
 
@@ -717,9 +732,16 @@ class generate_app(QMainWindow):
         
         module = generate_password()
 
-        module.set_setting(length=length, upper_bool=bool_upper, lower_bool=bool_lower, russian_letters=bool_russian, special_chars_bool=bool_special, numbers_bool=bool_number)
+        if not (bool_upper or bool_lower or bool_special or bool_number): 
+            self.ui.password.setText("Невозможно сгенировать пароль.")
+            return None
 
-        new_password = module.generate_password()
+        module.set_setting(length=length, upper_bool=bool_upper, lower_bool=bool_lower, russian_letters=bool_russian, special_chars_bool=bool_special, numbers_bool=bool_number)
+        
+        try:
+            new_password = module.generate_password()
+        except Exception as e:
+            new_password = f"Возникла ошибка. {e}"
 
         self.ui.password.setText(new_password)
 
@@ -753,6 +775,8 @@ class generate_app(QMainWindow):
         setting.set_default_setting()
         setting.theme()
 
+        setting.save_setting.connect(self.theme)
+        setting.save_setting.connect(self.save.emit)
         setting.exec()
 
         self.theme()
@@ -900,8 +924,6 @@ class generate_app(QMainWindow):
         return None
     
     def closeEvent(self, event):
-        if self.parent():
-            self.parent().show()
         self.closed.emit()
         event.accept()
 
