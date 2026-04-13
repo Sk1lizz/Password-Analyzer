@@ -18,29 +18,9 @@ class Ui_Dialog(object):
         Dialog.resize(550, 611)
         Dialog.setMinimumSize(QSize(550, 600))
         icon = QIcon()
-        icon.addFile(u"../../../resources/icons/icon-white.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon.addFile(u"resources\\icons\\icon-white.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         Dialog.setWindowIcon(icon)
-        Dialog.setStyleSheet(u"QDialog {\n"
-"    background-color: #1e1e1e;\n"
-"}\n"
-"\n"
-"QLineEdit {\n"
-"    background-color: #2d2d2d;\n"
-"    color: #ffffff;\n"
-"    border: 1px solid #3c3c3c;\n"
-"    border-radius: 4px;\n"
-"    padding: 5px;\n"
-"}\n"
-"\n"
-"QLineEdit:focus {\n"
-"    border: 2px solid #094771;\n"
-"}\n"
-"\n"
-"QCheckBox {\n"
-"    spacing: 8px;\n"
-"    font-size: 12px;\n"
-"    padding: 4px 0px;\n"
-"}")
+        Dialog.setStyleSheet(u"")
         self.verticalLayout = QVBoxLayout(Dialog)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.verticalSpacer = QSpacerItem(479, 30, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Fixed)

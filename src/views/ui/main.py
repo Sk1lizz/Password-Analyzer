@@ -154,7 +154,7 @@ class Ui_MainWindow(object):
 
         self.lbl_full_result = QLabel(self.centralwidget)
         self.lbl_full_result.setObjectName(u"lbl_full_result")
-        self.lbl_full_result.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.lbl_full_result.setAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignVCenter)
 
         self.gridLayout_3.addWidget(self.lbl_full_result, 3, 1, 1, 1)
 

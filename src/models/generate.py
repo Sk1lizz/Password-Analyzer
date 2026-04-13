@@ -35,6 +35,9 @@ class generate_password:
         while len(password) <= self.length:
             
             if self.upper:
+
+                if len(password) >= self.length: return password
+
                 if self.russian_letters:
                     i = random.randint(0, (len(self.UPPER_RUSSIAN) - 1 ))
                     password += self.UPPER_RUSSIAN[i]
@@ -44,6 +47,9 @@ class generate_password:
                     password += self.UPPER[i]
 
             if self.lower:
+
+                if len(password) >= self.length: return password
+
                 if self.russian_letters:
                     i = random.randint(0, (len(self.LOWER_RUSSIAN) - 1 ))
                     password += self.LOWER_RUSSIAN[i]
@@ -52,13 +58,21 @@ class generate_password:
                     i = random.randint(0, (len(self.LOWER) - 1 ))
                     password += self.LOWER[i]
 
-            if self.special_char and ((len(password) % 5 == 0) or (len(password) % 5 == 2) or (len(password) % 5 == 3)) and len(password) > 4:
+            if self.special_char and (((len(password) % 5 == 0) or (len(password) % 5 == 2) or (len(password) % 5 == 3)) and len(password) > 4 or not (self.lower or self.upper)):
+                
+                if len(password) >= self.length: return password
+
                 i = random.randint(0, (len(self.SPECIAL_CHAR) - 1 ))
                 password += self.SPECIAL_CHAR[i]
 
-            if self.numbers and len(password) >= (self.length // 2):
+            if self.numbers and ((len(password) >= (self.length // 2)) or not (self.lower or self.upper)):
+                
+                if len(password) >= self.length: return password
+
                 i = random.randint(0, (len(self.NUMBERS) - 1 ))
                 password += self.NUMBERS[i]
+            
+            
 
         return password
     

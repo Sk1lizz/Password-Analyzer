@@ -1,6 +1,8 @@
-import src.views.main_window as window
+#import src.views.main_window as window
 import src.utils.create_files as create_file
 import src.models.config as cfg
+
+import src.main as window
 
 if __name__ == "__main__":
     test_cfg = cfg.config()
@@ -13,12 +15,8 @@ if __name__ == "__main__":
 
     path = test_cr.get_path()
 
-    main = window.setting()
+    main = window.main()
 
     main.set_config(path)
+
     main.start()
-
-
-
-    
-
