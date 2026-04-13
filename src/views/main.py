@@ -17,7 +17,7 @@ class Ui_MainWindow(object):
         MainWindow.resize(550, 750)
         MainWindow.setMinimumSize(QSize(550, 750))
         icon = QIcon()
-        icon.addFile(u"resources\icons\icon-white.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon.addFile(u"resources\\icons\\icon-white.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         MainWindow.setWindowIcon(icon)
         MainWindow.setStyleSheet(u"QMainWindow {\n"
 "    background-color: #1e1e1e;\n"

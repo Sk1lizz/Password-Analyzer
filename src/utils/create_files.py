@@ -17,7 +17,7 @@ config_data = {
     "common-level": "3"
 }
 
-language_data = ''
+language_data = ''''''
 
 history_data = ""
 

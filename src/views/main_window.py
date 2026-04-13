@@ -72,9 +72,11 @@ class main_app(QMainWindow):
 
         if not self.password_hide:
             self.ui.le_password.setEchoMode(QLineEdit.EchoMode.Normal)
+            self.ui.btn_password.setText("🔒 Скрыть пароль")
 
         else:
             self.ui.le_password.setEchoMode(QLineEdit.EchoMode.Password)
+            self.ui.btn_password.setText("🔓 Показать пароль")
 
     def start_program(self) -> None:
         check = Check()
@@ -89,41 +91,41 @@ class main_app(QMainWindow):
 
         message = first_check["message"]
         score_first = int(first_check["score"])
-        main_text = f"symbol1 Длина: len suffix\nsymbol2 Заглавные буквы: A-Z\nsymbol3 Строчные буквы: a-z\nsymbol4 Цифры: 0-9\nsymbol5 Спецсимволы: !@#$%\nsymbol6 Энтропия: entropy бит"
+        main_text = f"<symbol1> Длина: <len> <suffix>\n<symbol2> Заглавные буквы: A-Z\n<symbol3> Строчные буквы: a-z\n<symbol4> Цифры: 0-9\n<symbol5> Спецсимволы: !@#$%\n<symbol6> Энтропия: <entropy> бит"
 
         len_password = str(len(password))
 
-        main_text = main_text.replace("entropy", f"{message["entropy"]["numbers"]}").replace("len", f"{len_password}")
+        main_text = main_text.replace("<entropy>", f"{message["entropy"]["numbers"]}").replace("<len>", f"{len_password}")
 
         if bool(message['len-8']):
-            main_text = main_text.replace("symbol1", f"{self.true_text}")
+            main_text = main_text.replace("<symbol1>", f"{self.true_text}")
         else:
-            main_text = main_text.replace("symbol1", f"{self.false_text}")
+            main_text = main_text.replace("<symbol1>", f"{self.false_text}")
 
         if bool(message["A-Z"]):
-            main_text = main_text.replace("symbol2", f"{self.true_text}")
+            main_text = main_text.replace("<symbol2>", f"{self.true_text}")
         else:
-            main_text = main_text.replace("symbol2", f"{self.false_text}")
+            main_text = main_text.replace("<symbol2>", f"{self.false_text}")
         
         if bool(message["a-z"]):
-            main_text = main_text.replace("symbol3", f"{self.true_text}")
+            main_text = main_text.replace("<symbol3>", f"{self.true_text}")
         else:
-            main_text = main_text.replace("symbol3", f"{self.false_text}")
+            main_text = main_text.replace("<symbol3>", f"{self.false_text}")
 
         if bool(message["!@$"]):
-            main_text = main_text.replace("symbol5", f"{self.true_text}")
+            main_text = main_text.replace("<symbol5>", f"{self.true_text}")
         else:
-            main_text = main_text.replace("symbol5", f"{self.false_text}")
+            main_text = main_text.replace("<symbol5>", f"{self.false_text}")
         
         if bool(message["0-9"]):
-            main_text = main_text.replace("symbol4", f"{self.true_text}")
+            main_text = main_text.replace("<symbol4>", f"{self.true_text}")
         else:
-            main_text = main_text.replace("symbol4", f"{self.false_text}")
+            main_text = main_text.replace("<symbol4>", f"{self.false_text}")
 
         if bool(message["entropy"]["result"]):
-            main_text = main_text.replace("symbol6", f"{self.true_text}")
+            main_text = main_text.replace("<symbol6>", f"{self.true_text}")
         else:
-            main_text = main_text.replace("symbol6", f"{self.false_text}")
+            main_text = main_text.replace("<symbol6>", f"{self.false_text}")
 
         length = len(password)
 
@@ -134,7 +136,7 @@ class main_app(QMainWindow):
         else:
             suffix = "символов"
 
-        main_text = main_text.replace("suffix", f"{suffix}")
+        main_text = main_text.replace("<suffix>", f"{suffix}")
 
         self.ui.lbl_full_result.setText(main_text)
 
@@ -743,6 +745,10 @@ class generate_app(QMainWindow):
         except Exception as e:
             new_password = f"Возникла ошибка. {e}"
 
+        edit = edit_data(self.paths)
+
+        edit.add_history(new_password)
+
         self.ui.password.setText(new_password)
 
 
@@ -782,13 +788,7 @@ class generate_app(QMainWindow):
         self.theme()
 
     def theme(self) -> None:
-        self.css_theme_dark = """
-        
-        QWidget {
-                color: #ffffff;
-            }
-            
-            QMainWindow {
+        self.css_theme_dark = """QMainWindow {
                 background-color: #1e1e1e;
             }
 
@@ -807,7 +807,7 @@ class generate_app(QMainWindow):
             QPushButton {
                 background-color: #2d2d2d;
                 color: #ffffff;
-                border: none;
+                border: 1px solid #3c3c3c;
                 border-radius: 4px;
                 padding: 8px 16px;
             }
@@ -822,6 +822,8 @@ class generate_app(QMainWindow):
 
             QPushButton:checked {
                 background-color: #094771;
+                color: #ffffff;
+                border: none;
             }
 
             QProgressBar {
@@ -829,6 +831,7 @@ class generate_app(QMainWindow):
                 border-radius: 4px;
                 background-color: #2d2d2d;
                 color: #ffffff;
+                text-align: center;
             }
 
             QProgressBar::chunk {
@@ -854,10 +857,6 @@ class generate_app(QMainWindow):
 
             QLineEdit:focus {
                 border: 2px solid #1976d2;
-            }
-
-            QLabel {
-                color: #000000;
             }
 
             QPushButton {
@@ -928,17 +927,7 @@ class generate_app(QMainWindow):
         event.accept()
 
 
-
-"""
-def main() -> None:
-    app = QApplication(sys.argv)
-
-    window = main_app()
-    window.show()
-
-    sys.exit(app.exec())"""
-
-class setting:
+"""class setting:
     def __init__(self) -> None:
         self.app = QApplication(sys.argv)
 
@@ -952,7 +941,7 @@ class setting:
 
     def set_config(self, dict_config: dict) -> None:
         self.window.set_paths(dict_config)
-
+"""
 class main:
     def __init__(self) -> None:
         self.app = QApplication(sys.argv)
@@ -966,7 +955,7 @@ class main:
     def set_config(self, dict_config: dict) -> None:
         self.window.set_paths(dict_config)
     
-
+"""
 class gen:
     def __init__(self) -> None:
         self.app = QApplication(sys.argv)
@@ -978,4 +967,4 @@ class gen:
         sys.exit(self.app.exec())
 
     def set_config(self, dict_config: dict) -> None:
-        self.window.set_paths(dict_config)
+        self.window.set_paths(dict_config)"""
