@@ -104,7 +104,7 @@ setting:
     system: "Как в системе"
   title-history: "Максимум записей в истории:"
   title-language: "Язык:"
-  waiting-message: "Введите название языкового файла...."
+  waiting-message: "Выберите язык"
   button-save: "Сохранить изменения"
   successful-save: "✅ Настройки применены!"
   
@@ -217,7 +217,7 @@ setting:
     system: "System default"
   title-history: "Max history entries:"
   title-language: "Language:"
-  waiting-message: "Enter language file name..."
+  waiting-message: "Select language"
   button-save: "Save changes"
   successful-save: "✅ Settings applied!"
   

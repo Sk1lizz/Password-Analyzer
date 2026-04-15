@@ -8,6 +8,7 @@ from src.models.checked import Check
 
 import sys
 import darkdetect
+from pathlib import Path
 
 from PySide6.QtWidgets import QApplication, QMainWindow, QLineEdit, QDialog
 from PySide6.QtCore import QTimer, Signal
@@ -583,7 +584,7 @@ class setting_app(QDialog):
         self.ui.lbl_password.setText(title_history)
         self.ui.lbl_lang.setText(title_lang)
 
-        self.ui.le_language.setPlaceholderText(waiting_message)
+        self.ui.comboBox.setPlaceholderText(waiting_message)
         self.ui.btn_confirm.setText(self.save)
 
 
@@ -593,7 +594,7 @@ class setting_app(QDialog):
         light = self.ui.cb_light.isChecked()
         dark = self.ui.cb_dark.isChecked()
 
-        language = self.ui.le_language.text()
+        language = self.ui.comboBox.currentText()
 
         count_history = int(self.ui.sb_amount_history.text())
 
@@ -612,8 +613,7 @@ class setting_app(QDialog):
 
         self.edit_data_file(theme=theme, language=language, count=int(count_history))
 
-
-        self.edit_btn(state=True, style_dark=True)
+        self.edit_btn(state=True)
 
         self.theme()
 
@@ -639,14 +639,14 @@ class setting_app(QDialog):
             self.save_setting.emit()
 
             style = "background-color: #32CD32;"
-            self.ui.btn_confirm.setText(self.successful_save)
+            self.ui.btn_confirm.setText(f"{self.successful_save}")
             self.ui.btn_confirm.setStyleSheet(style)
 
             QTimer.singleShot(1000, lambda: self.ui.btn_confirm.setText(self.save))
             QTimer.singleShot(1000, lambda: self.ui.btn_confirm.setStyleSheet(self.style_normal))
 
-        self.set_language()
         self.theme()
+        self.set_default_setting()
     
     def edit_data_file(self, count: int | None = None, language: str | None = None, theme: str | None = None) -> None:
         edit = edit_data(dict_path=self.paths)
@@ -659,18 +659,19 @@ class setting_app(QDialog):
 
         if not language is None:
             try:
-                path = self.paths["language"] + f"/{self.ui.le_language.text()}.yaml"
+                path = self.paths["language"] + f"/{self.ui.comboBox.currentText()}.yaml"                       
                 with open(path, "r") as file:
                     pass
                 edit_args(name="language", arg=language)
+                self.set_language()
             except:
                 lang = edit.get_config("language")
 
-                self.ui.le_language.setText(lang)
+                self.ui.comboBox.setCurrentText(lang)
         else: 
             lang = edit.get_config("language")
 
-            self.ui.le_language.setText(lang)
+            self.ui.comboBox.setCurrentText(lang)                       
 
         if not theme is None:
             edit_args(name="theme", arg=theme)
@@ -690,7 +691,13 @@ class setting_app(QDialog):
         count = int(edit.get_config(arg="history-amount"))
         theme = edit.get_config(arg="theme")
 
-        self.ui.le_language.setText(language)
+        lang_list = self.get_lang()
+
+        self.ui.comboBox.clear()
+
+        for lang in lang_list:
+            self.ui.comboBox.addItem(lang)
+        self.ui.comboBox.setCurrentText(language)
         self.ui.sb_amount_history.setValue(count)
 
         match theme:
@@ -737,7 +744,31 @@ class setting_app(QDialog):
             spacing: 8px;
             font-size: 12px;
             padding: 4px 0px;
-        }"""
+        }
+        
+        QComboBox {
+            background-color: #ffffff;
+            color: #000000;
+            border: 1px solid #d0d0d0;
+            border-radius: 4px;
+            padding: 5px;
+        }
+
+        QComboBox:hover {
+            background-color: #f0f0f0;
+        }
+
+        QComboBox::drop-down {
+            border: none;
+        }
+
+        QComboBox QAbstractItemView {
+            background-color: #ffffff;
+            color: #000000;
+            selection-background-color: #1976d2;
+            selection-color: #ffffff;
+        }
+        """
 
         css_theme_dark = """QDialog {
             background-color: #1e1e1e;
@@ -759,6 +790,28 @@ class setting_app(QDialog):
             spacing: 8px;
             font-size: 12px;
             padding: 4px 0px;
+        }
+        
+        QComboBox {
+            background-color: #2d2d2d;
+            color: #ffffff;
+            border: 1px solid #3c3c3c;
+            border-radius: 4px;
+            padding: 5px;
+        }
+
+        QComboBox:hover {
+            background-color: #3c3c3c;
+        }
+
+        QComboBox::drop-down {
+            border: none;
+        }
+
+        QComboBox QAbstractItemView {
+            background-color: #2d2d2d;
+            color: #ffffff;
+            selection-background-color: #094771;
         }"""
 
         self.style_normal = "background-color: #2d2d2d;"
@@ -790,6 +843,19 @@ class setting_app(QDialog):
 
             
         return None
+    
+    def get_lang(self) -> list:
+        path = Path(self.paths["language"])
+
+        files = path.iterdir()
+
+        result = list()
+
+        for file in files:
+            if file.suffix == ".yaml":
+                result.append(f"{file.stem}")
+
+        return result
 
 
 

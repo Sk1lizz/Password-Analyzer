@@ -85,8 +85,8 @@ setting:
     system: "Как в системе"
   title-history: "Максимум записей в истории:"
   title-language: "Язык:"
-  waiting-message: "Введите название языкового файла...."
-  button-save: "💾 Сохранить изменения"
+  waiting-message: "Выберите язык"
+  button-save: "Сохранить изменения"
   successful-save: "✅ Настройки применены!"
   
 

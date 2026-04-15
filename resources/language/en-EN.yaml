@@ -85,7 +85,7 @@ setting:
     system: "System default"
   title-history: "Max history entries:"
   title-language: "Language:"
-  waiting-message: "Enter language file name..."
+  waiting-message: "Select language"
   button-save: "Save changes"
   successful-save: "✅ Settings applied!"
   
@@ -108,4 +108,4 @@ generate:
     custom: "Use Russian letters"
     number: "Use numbers"
     special: "Use special characters"
-    error: "❌ Cannot generate password
+    error: "❌ Cannot generate password"
