@@ -8,6 +8,7 @@ from src.models.checked import Check
 
 import sys
 import darkdetect
+from pathlib import Path
 
 from PySide6.QtWidgets import QApplication, QMainWindow, QLineEdit, QDialog
 from PySide6.QtCore import QTimer, Signal
@@ -34,24 +35,79 @@ class main_app(QMainWindow):
 
         self.password_hide = True
 
-        
-        self.hide_password(change=False)
-
         self.ui.btn_password.clicked.connect(lambda function: self.hide_password(change=True))
         self.ui.le_password.textChanged.connect(self.start_program)
         self.ui.btn_copy.clicked.connect(self.copy)
 
         self.ui.btn_setting.clicked.connect(self.open_setting)
         self.ui.btn_generate.clicked.connect(self.open_generate)
+
+    def set_language(self) -> None:
+        edit = edit_data(self.paths)
+        lang_data = edit.get_lang()
+        
+        data = lang_data["app"]
+
+        self.name_app = data["name"]
+        self.title = data["title"]
+        self.waiting_text = data["waiting-message"]
+        self.result = data["result-text"]
+        self.full_text = data["full-text"]
+
+        data_text = data["text-result-full"]
+
+        len_text = data_text["len"]
+        self.suffix = data_text["len-suffix"]
+        upper_text = data_text["upper"]
+        lower_text = data_text["lower"]
+        number_text = data_text["number"]
+        special_text = data_text["special"]
+        entropy_text = data_text["entropy"]
+
+        liked = data_text["liked-password"]
+        result_liked = data_text["result-liked"]
+        self.if_liked = data_text["if-liked"]
+        self.liked_status = data_text["result-liked-password"]
+
+        self.power = data_text["power-password"]
+
+        self.status_text = data["status-text"]
+        self.status = data["status"]
+
+        self.button = data["button-text"]
+
+
+        self.text = f"""<symbol1> {len_text}\n<symbol2> {upper_text}\n<symbol3> {lower_text}\n<symbol4> {number_text}\n<symbol5> {special_text}\n<symbol6> {entropy_text}"""
+        self.liked_text = f"""{liked}\n<symbol> {result_liked}"""
+
+        self.setWindowTitle(self.name_app)
+        self.ui.lbl_name_app.setText(self.title)
+        self.ui.le_password.setPlaceholderText(self.waiting_text)
+        
+        self.ui.btn_copy.setText(self.button["copy"])
+        self.ui.btn_setting.setText(self.button["setting"])
+        self.ui.btn_history.setText(self.button["history"])
+        
+        if not self.password_hide:
+            self.ui.le_password.setEchoMode(QLineEdit.EchoMode.Normal)
+            self.ui.btn_password.setText(self.button["hide-password"])
+
+        else:
+            self.ui.le_password.setEchoMode(QLineEdit.EchoMode.Password)
+            self.ui.btn_password.setText(self.button["show-password"])
+
+        self.ui.btn_generate.setText(self.button["generate"])
+
+        self.start_program()
     
 
     def set_default_text(self) -> None:
-        self.result = "Результат: "
-        self.result_text = self.none_text
+        text = self.text.replace("<len>", "0").replace("<suffix>", self.suffix[2]).replace("<entropy>", "0")
+        list_symbol = ["<symbol1>", "<symbol2>", "<symbol3>", "<symbol4>", "<symbol5>", "<symbol6>"]
+        for symbol in list_symbol:
+            text = text.replace(symbol, self.none_text)
 
-        self.main_text = "💪 Надёжность: "
-        self.text = f"""{self.result_text} Длина: 0 символов\n{self.result_text} Заглавные буквы: A-Z\n{self.result_text} Строчные буквы: a-z\n{self.result_text} Цифры: 0-9\n{self.result_text} Спецсимволы: !@#$%\n{self.result_text} Энтропия: 0 бит """
-        self.text_2 = "Схожесть с популярными паролями: \nСтатус: "
+        text_2 = self.liked_text.replace("<symbol>", "").replace("<status>", "")
 
         style_status = f"""
             QProgressBar::chunk {{
@@ -60,23 +116,38 @@ class main_app(QMainWindow):
         """
 
         self.ui.pb_bar.setStyleSheet(style_status)
+        self.ui.pb_bar.setValue(0)
         
         self.ui.lbl_result.setText(self.result)
-        self.ui.lbl_full_result.setText(self.text)
-        self.ui.lbl_full_result_2.setText(self.text_2)
-        self.ui.lbl_full_result_3.setText(self.main_text)
-        self.ui.pb_bar.setValue(0)
+        self.ui.lbl_full_result_4.setText(self.full_text)
+        self.ui.lbl_full_result.setText(text)
+        self.ui.lbl_full_result_2.setText(text_2)
+        self.ui.lbl_full_result_3.setText(self.power)
+        
+        self.ui.btn_copy.setText(self.button["copy"])
+        self.ui.btn_setting.setText(self.button["setting"])
+        self.ui.btn_history.setText(self.button["history"])
+        
+        if not self.password_hide:
+            self.ui.le_password.setEchoMode(QLineEdit.EchoMode.Normal)
+            self.ui.btn_password.setText(self.button["hide-password"])
+
+        else:
+            self.ui.le_password.setEchoMode(QLineEdit.EchoMode.Password)
+            self.ui.btn_password.setText(self.button["show-password"])
+
+        self.ui.btn_generate.setText(self.button["generate"])
 
     def hide_password(self, change: bool = False ) -> None:
         if change: self.password_hide = not self.password_hide
 
         if not self.password_hide:
             self.ui.le_password.setEchoMode(QLineEdit.EchoMode.Normal)
-            self.ui.btn_password.setText("🔒 Скрыть пароль")
+            self.ui.btn_password.setText(self.button["hide-password"])
 
         else:
             self.ui.le_password.setEchoMode(QLineEdit.EchoMode.Password)
-            self.ui.btn_password.setText("🔓 Показать пароль")
+            self.ui.btn_password.setText(self.button["show-password"])
 
     def start_program(self) -> None:
         check = Check()
@@ -91,7 +162,8 @@ class main_app(QMainWindow):
 
         message = first_check["message"]
         score_first = int(first_check["score"])
-        main_text = f"<symbol1> Длина: <len> <suffix>\n<symbol2> Заглавные буквы: A-Z\n<symbol3> Строчные буквы: a-z\n<symbol4> Цифры: 0-9\n<symbol5> Спецсимволы: !@#$%\n<symbol6> Энтропия: <entropy> бит"
+
+        main_text = self.text
 
         len_password = str(len(password))
 
@@ -130,11 +202,11 @@ class main_app(QMainWindow):
         length = len(password)
 
         if length % 10 == 1 and length % 100 != 11 :
-            suffix = "символ"
+            suffix = self.suffix[0]
         elif 2 <= length % 10 <= 4 and (length % 100 < 10 or length % 100 >= 20):
-            suffix = "символа"
+            suffix = self.suffix[1]
         else:
-            suffix = "символов"
+            suffix = self.suffix[2]
 
         main_text = main_text.replace("<suffix>", f"{suffix}")
 
@@ -155,18 +227,19 @@ class main_app(QMainWindow):
 
         message = second_check["message"]
 
-        text = "Схожесть с популярными паролями: \n<symbol> Статус: <status>"
+        text = self.liked_text
 
         if bool(message["clear"]):
-            text = text.replace("<status>", "Отсутвует").replace("<symbol>", f"{self.true_text}")
+            text = text.replace("<symbol>", f"{self.true_text}").replace("<status>", f"{self.liked_status[0]}")
         
         elif bool(message["1in1"]):
-            text = text.replace("<symbol>", f"{self.false_text}").replace("<status>", "Точное совпадение")
+            text = text.replace("<symbol>", f"{self.false_text}").replace("<status>", f"{self.liked_status[2]}")
         
         else:
             password_liked = message["like"]
 
-            text = text.replace("<status>", f"Похож\nПароль похож на {password_liked}").replace("<symbol>", f"{self.false_text}")
+            text = text.replace("<symbol>", f"{self.false_text}").replace("<status>", f"{self.liked_status[1]}")
+            text += f"\n{self.if_liked} {password_liked}"
 
         self.ui.lbl_full_result_2.setText(text)
 
@@ -175,48 +248,48 @@ class main_app(QMainWindow):
         percent = score
 
         if score <= 10:
-            status_text = "Ужасный пароль"
-            status = "УЖАСНО"
+            status_text = self.status_text[0]
+            status = self.status[0]
             color = "#FF0000"
 
         elif score <= 20:
-            status_text = "Очень плохой пароль"
-            status = "УЖАСНО"
+            status_text = self.status_text[1]
+            status = self.status[1]
             color = "#FF3333"
         
         elif score <= 30:
-            status_text = "Плохой пароль"
-            status = "ПЛОХО"
+            status_text = self.status_text[2]
+            status = self.status[2]
             color = "#FF8000"
         
         elif score <= 40:
-            status_text = "Нормальный пароль"
-            status = "НОРМАЛЬНО"
+            status_text = self.status_text[3]
+            status = self.status[3]
             color = "#FFFF00"
         
         elif score <= 50:
-            status_text = "Хороший пароль"
-            status = "ХОРОШИЙ"
+            status_text = self.status_text[4]
+            status = self.status[4]
             color = "#FFFF66"
         
         elif score <= 75:
-            status_text = "Отличный пароль"
-            status = "ОТЛИЧНО"
+            status_text = self.status_text[5]
+            status = self.status[5]
             color = "#00FF80"
         
         elif score <= 95:
-            status_text = "Превосходный пароль"
-            status = "ОТЛИЧНО"
+            status_text = self.status_text[6]
+            status = self.status[6]
             color = "#80FF00"
         
         elif score == 100:
-            status_text = "Самый защищеный пароль"
-            status = "ПРЕВОСХОДНО"
+            status_text = self.status_text[7]
+            status = self.status[7]
             color = "#00FF00"
         
         else: 
-            status_text = "Ошибка"
-            status = "ОШИБКА"
+            status_text = self.status_text[-1]
+            status = self.status[-1]
             color = "#FFFFFF"
 
 
@@ -241,7 +314,7 @@ class main_app(QMainWindow):
 
         self.ui.lbl_result.setText(text)
 
-        text = self.main_text
+        text = self.power
 
         text += status
 
@@ -254,6 +327,7 @@ class main_app(QMainWindow):
         
         self.paths = paths
 
+        self.set_language()
         self.theme()
 
     
@@ -265,9 +339,9 @@ class main_app(QMainWindow):
         clipboard = QApplication.clipboard()
         clipboard.setText(self.ui.le_password.text())
         
-        self.ui.btn_copy.setText("✅ Скопировано!")
+        self.ui.btn_copy.setText(self.button["successful-copy"])
         self.ui.btn_copy.setStyleSheet(style)
-        QTimer.singleShot(1000, lambda: self.ui.btn_copy.setText("📋 Скопировать"))
+        QTimer.singleShot(1000, lambda: self.ui.btn_copy.setText(self.button["copy"]))
         QTimer.singleShot(1000, lambda: self.ui.btn_copy.setStyleSheet(self.style_normal))
 
         edit = edit_data(self.paths)
@@ -286,6 +360,9 @@ class main_app(QMainWindow):
         generate.closed.connect(self.theme)
         generate.save.connect(self.theme)
 
+        generate.closed.connect(self.set_language)
+        generate.save.connect(self.set_language)
+
         generate.show()
 
 
@@ -297,6 +374,10 @@ class main_app(QMainWindow):
             setting.theme()
 
             setting.save_setting.connect(self.theme)
+            setting.save_setting.connect(self.set_language)
+
+            setting.finished.connect(self.theme)
+            setting.finished.connect(self.set_language)
 
             setting.exec()
 
@@ -470,13 +551,50 @@ class setting_app(QDialog):
         self.ui.cb_dark.clicked.connect(lambda function: self.toggle_setting(system=False, dark=True, light=False))
         self.ui.cb_light.clicked.connect(lambda function: self.toggle_setting(system=False, dark=False, light=True))
 
+    def set_language(self) -> None:
+        edit = edit_data(self.paths)
+        lang_data = edit.get_lang()
+        
+        data = lang_data["setting"]
+
+        name = data["name"]
+        title = data["title"]
+        title_theme = data["title-theme"]
+
+        theme = data["theme"]
+        light = theme["light"]
+        dark = theme["dark"]
+        system = theme["system"]
+
+        title_history = data["title-history"]
+        title_lang = data["title-language"]
+
+        waiting_message = data["waiting-message"]
+        self.save = data["button-save"]
+        self.successful_save = data["successful-save"]
+
+        self.setWindowTitle(name)
+        self.ui.lbl_name.setText(title)
+        self.ui.lbl_theme.setText(title_theme)
+
+        self.ui.lbl_light.setText(light)
+        self.ui.lbl_dark.setText(dark)
+        self.ui.lbl_system.setText(system)
+
+        self.ui.lbl_password.setText(title_history)
+        self.ui.lbl_lang.setText(title_lang)
+
+        self.ui.comboBox.setPlaceholderText(waiting_message)
+        self.ui.btn_confirm.setText(self.save)
+
+
     
     def confirm_setting(self) -> None:
         system = self.ui.cb_system.isChecked()
         light = self.ui.cb_light.isChecked()
         dark = self.ui.cb_dark.isChecked()
 
-        language = self.ui.le_language.text()
+        language = self.ui.comboBox.currentText()
 
         count_history = int(self.ui.sb_amount_history.text())
 
@@ -495,8 +613,7 @@ class setting_app(QDialog):
 
         self.edit_data_file(theme=theme, language=language, count=int(count_history))
 
-
-        self.edit_btn(state=True, style_dark=True)
+        self.edit_btn(state=True)
 
         self.theme()
 
@@ -520,15 +637,16 @@ class setting_app(QDialog):
     def edit_btn(self, state: bool = False, *kwars, **args) -> None:
         if state:
             self.save_setting.emit()
-            text = "Настройки применены!"
-            text_btn = self.ui.btn_confirm.text()
 
             style = "background-color: #32CD32;"
-            self.ui.btn_confirm.setText(text)
+            self.ui.btn_confirm.setText(f"{self.successful_save}")
             self.ui.btn_confirm.setStyleSheet(style)
 
-            QTimer.singleShot(1000, lambda: self.ui.btn_confirm.setText(text_btn))
+            QTimer.singleShot(1000, lambda: self.ui.btn_confirm.setText(self.save))
             QTimer.singleShot(1000, lambda: self.ui.btn_confirm.setStyleSheet(self.style_normal))
+
+        self.theme()
+        self.set_default_setting()
     
     def edit_data_file(self, count: int | None = None, language: str | None = None, theme: str | None = None) -> None:
         edit = edit_data(dict_path=self.paths)
@@ -538,12 +656,22 @@ class setting_app(QDialog):
         if not count is None:
             edit_args(name="history-amount", arg=str(count))
 
+
         if not language is None:
-            edit_args(name="language", arg=language)
+            try:
+                path = self.paths["language"] + f"/{self.ui.comboBox.currentText()}.yaml"                       
+                with open(path, "r") as file:
+                    pass
+                edit_args(name="language", arg=language)
+                self.set_language()
+            except:
+                lang = edit.get_config("language")
+
+                self.ui.comboBox.setCurrentText(lang)
         else: 
             lang = edit.get_config("language")
 
-            self.ui.le_language.setText(lang)
+            self.ui.comboBox.setCurrentText(lang)                       
 
         if not theme is None:
             edit_args(name="theme", arg=theme)
@@ -554,6 +682,8 @@ class setting_app(QDialog):
         
         self.paths = paths
 
+        self.set_language()
+
     def set_default_setting(self) -> None:
         edit = edit_data(dict_path=self.paths)
 
@@ -561,7 +691,13 @@ class setting_app(QDialog):
         count = int(edit.get_config(arg="history-amount"))
         theme = edit.get_config(arg="theme")
 
-        self.ui.le_language.setText(language)
+        lang_list = self.get_lang()
+
+        self.ui.comboBox.clear()
+
+        for lang in lang_list:
+            self.ui.comboBox.addItem(lang)
+        self.ui.comboBox.setCurrentText(language)
         self.ui.sb_amount_history.setValue(count)
 
         match theme:
@@ -608,7 +744,31 @@ class setting_app(QDialog):
             spacing: 8px;
             font-size: 12px;
             padding: 4px 0px;
-        }"""
+        }
+        
+        QComboBox {
+            background-color: #ffffff;
+            color: #000000;
+            border: 1px solid #d0d0d0;
+            border-radius: 4px;
+            padding: 5px;
+        }
+
+        QComboBox:hover {
+            background-color: #f0f0f0;
+        }
+
+        QComboBox::drop-down {
+            border: none;
+        }
+
+        QComboBox QAbstractItemView {
+            background-color: #ffffff;
+            color: #000000;
+            selection-background-color: #1976d2;
+            selection-color: #ffffff;
+        }
+        """
 
         css_theme_dark = """QDialog {
             background-color: #1e1e1e;
@@ -630,6 +790,28 @@ class setting_app(QDialog):
             spacing: 8px;
             font-size: 12px;
             padding: 4px 0px;
+        }
+        
+        QComboBox {
+            background-color: #2d2d2d;
+            color: #ffffff;
+            border: 1px solid #3c3c3c;
+            border-radius: 4px;
+            padding: 5px;
+        }
+
+        QComboBox:hover {
+            background-color: #3c3c3c;
+        }
+
+        QComboBox::drop-down {
+            border: none;
+        }
+
+        QComboBox QAbstractItemView {
+            background-color: #2d2d2d;
+            color: #ffffff;
+            selection-background-color: #094771;
         }"""
 
         self.style_normal = "background-color: #2d2d2d;"
@@ -661,6 +843,19 @@ class setting_app(QDialog):
 
             
         return None
+    
+    def get_lang(self) -> list:
+        path = Path(self.paths["language"])
+
+        files = path.iterdir()
+
+        result = list()
+
+        for file in files:
+            if file.suffix == ".yaml":
+                result.append(f"{file.stem}")
+
+        return result
 
 
 
@@ -678,8 +873,6 @@ class generate_app(QMainWindow):
         self.ui = generate_Ui()
         self.ui.setupUi(self)
 
-        self.set_default()
-
         self.ui.btn_copy.clicked.connect(self.copy)
         self.ui.btn_setting.clicked.connect(self.open_setting)
         
@@ -689,26 +882,58 @@ class generate_app(QMainWindow):
         self.ui.btn_main.clicked.connect(self.close)
         
 
+    def set_language(self) -> None:
+        edit = edit_data(self.paths)
+        lang_data = edit.get_lang()
+        
+        data = lang_data["generate"]
+        self.name = data["name"]
+        self.title = data["title"]
+        self.button = data["button"]
+
+
+
+        self.setWindowTitle(self.name)
+        self.ui.lbl_name_app.setText(self.title)
+
+        data_text = data["text-result-full"]
+
+        self.len_password = data_text["len"]
+        self.text_upper = data_text["upper"]
+        self.text_lower = data_text["lower"]
+        self.text_custom = data_text["custom"]
+        self.text_number = data_text["number"]
+        self.text_special = data_text["special"]
+
+        self.error_message = data_text["error"]
+
+        self.text_length = self.len_password.replace("<len>", "16")
+        
+        self.ui.btn_copy.setText(self.button["copy"])
+        self.ui.btn_setting.setText(self.button["setting"])
+        self.ui.btn_main.setText(self.button["main-app"])
+        self.ui.btn_history.setText(self.button["history"])
+        self.ui.btn_generate.setText(self.button["generate"])
+
+        self.ui.password.setText("")
+        self.ui.lbl_text_lenght.setText(self.text_length)
+        self.ui.lbl_text_upper.setText(self.text_upper)
+        self.ui.lbl_text_lower.setText(self.text_lower)
+        self.ui.lbl_text_russian.setText(self.text_custom)
+        self.ui.lbl_text_number.setText(self.text_number)
+        self.ui.lbl_text_special.setText(self.text_special)
 
 
     def set_default(self) -> None:
-        self.setWindowTitle("PasswordAnalyzer - generate")
         self.password_dafault = ""
         self.length = 16
-        self.text_length = "16 симв."
-
-        self.text_upper = "Использовать заглавные буквы"
-        self.text_lower = "Использовать прописные буквы"
-        self.text_russian = "Использовать русские буквы"
-        self.text_number = "Использовать числа"
-        self.text_special = "Использовать спецсимволы"
 
         self.ui.password.setText(self.password_dafault)
         self.ui.sld_lenght.setValue(self.length)
         self.ui.lbl_text_lenght.setText(self.text_length)
         self.ui.lbl_text_upper.setText(self.text_upper)
         self.ui.lbl_text_lower.setText(self.text_lower)
-        self.ui.lbl_text_russian.setText(self.text_russian)
+        self.ui.lbl_text_russian.setText(self.text_custom)
         self.ui.lbl_text_number.setText(self.text_number)
         self.ui.lbl_text_special.setText(self.text_special)
 
@@ -719,7 +944,7 @@ class generate_app(QMainWindow):
         if length < 10:
             length = f"{length}  "
         
-        text = f"{length} симв."
+        text = self.len_password.replace("<len>", f"{length}")
 
         self.ui.lbl_text_lenght.setText(text)
 
@@ -735,7 +960,7 @@ class generate_app(QMainWindow):
         module = generate_password()
 
         if not (bool_upper or bool_lower or bool_special or bool_number): 
-            self.ui.password.setText("Невозможно сгенировать пароль.")
+            self.ui.password.setText(self.error_message)
             return None
 
         module.set_setting(length=length, upper_bool=bool_upper, lower_bool=bool_lower, russian_letters=bool_russian, special_chars_bool=bool_special, numbers_bool=bool_number)
@@ -743,7 +968,7 @@ class generate_app(QMainWindow):
         try:
             new_password = module.generate_password()
         except Exception as e:
-            new_password = f"Возникла ошибка. {e}"
+            new_password = f"{self.error_message}"
 
         edit = edit_data(self.paths)
 
@@ -759,20 +984,22 @@ class generate_app(QMainWindow):
         
         self.paths = paths
 
+        self.set_language()
+
         self.theme()
 
 
     def copy(self) -> None:
 
-        if self.ui.password.text() in ["", " ", None]: return None
+        if self.ui.password.text() in ["", "Невозможно сгенировать пароль.", "❌ Невозможно сгенировать пароль.", self.error_message, None]: return None
         style = "background-color: #32CD32;"
 
         clipboard = QApplication.clipboard()
         clipboard.setText(self.ui.password.text())
         
-        self.ui.btn_copy.setText("✅ Скопировано!")
+        self.ui.btn_copy.setText(self.button["successful-copy"])
         self.ui.btn_copy.setStyleSheet(style)
-        QTimer.singleShot(1000, lambda: self.ui.btn_copy.setText("📋 Скопировать"))
+        QTimer.singleShot(1000, lambda: self.ui.btn_copy.setText(self.button["copy"]))
         QTimer.singleShot(1000, lambda: self.ui.btn_copy.setStyleSheet(self.style_normal))
 
     def open_setting(self) -> None:
@@ -783,6 +1010,11 @@ class generate_app(QMainWindow):
 
         setting.save_setting.connect(self.theme)
         setting.save_setting.connect(self.save.emit)
+        setting.save_setting.connect(self.set_language)
+
+        setting.finished.connect(lambda: self.theme())
+        setting.finished.connect(lambda: self.save.emit())
+        setting.finished.connect(lambda: self.set_language())
         setting.exec()
 
         self.theme()

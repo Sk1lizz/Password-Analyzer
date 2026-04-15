@@ -1,4 +1,5 @@
 import json
+import yaml
 
 """
 
@@ -21,10 +22,10 @@ class edit_data:
             with open(self.path_to_config, mode="r", encoding="utf-8") as __file:
                 __data = json.load(__file)
             
-            self.path_to_language = f"{path_lang}/{__data['language']}"
+            self.path_to_language = f"{path_lang}/{__data['language']}.yaml"
         
         except:
-            self.path_to_language = f"C:/Users/salim/AppData/Roaming/PasswordAnalyzer/language/ru-RU.json"
+            self.path_to_language = f"C:/Users/salim/AppData/Roaming/PasswordAnalyzer/language/ru-RU.yaml"
 
         return
     
@@ -110,8 +111,13 @@ class edit_data:
             return False
     
     
-    def get_lang(self):
-        pass
+    def get_lang(self) -> dict | bool:
+        try:
+            with open(self.path_to_language, "r", encoding="utf-8") as file:
+                data = yaml.safe_load(file)
+            return data
+        except:
+            return False
 
 
     def get_common_file(self, level: int | None = None) -> list:
