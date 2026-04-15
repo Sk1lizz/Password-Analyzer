@@ -14,7 +14,6 @@ if __name__ == "__main__":
     test_cr.create_file()
 
     path = test_cr.get_path()
-
     main = window.main()
 
     main.set_config(path)
