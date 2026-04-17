@@ -9,6 +9,7 @@ from src.models.checked import Check
 import sys
 import darkdetect
 from pathlib import Path
+import yaml
 
 from PySide6.QtWidgets import QApplication, QMainWindow, QLineEdit, QDialog
 from PySide6.QtCore import QTimer, Signal
@@ -540,6 +541,8 @@ class setting_app(QDialog):
 
     save_setting = Signal()
 
+    language_dict = dict()
+
     def __init__(self) -> None:
         super(setting_app, self).__init__()
         self.ui = Ui_Dialog()
@@ -594,12 +597,10 @@ class setting_app(QDialog):
         light = self.ui.cb_light.isChecked()
         dark = self.ui.cb_dark.isChecked()
 
-        language = self.ui.comboBox.currentText()
-
+        language_in_box = self.ui.comboBox.currentText()
+        language = self.language_dict[language_in_box]
+        
         count_history = int(self.ui.sb_amount_history.text())
-
-        if language.replace(" ", "") in [None, "", " "]:
-            language = None
         
         if system:
             theme = "system"
@@ -659,13 +660,13 @@ class setting_app(QDialog):
 
         if not language is None:
             try:
-                path = self.paths["language"] + f"/{self.ui.comboBox.currentText()}.yaml"                       
+                path = self.paths["language"] + f"/{language}.yaml"                       
                 with open(path, "r") as file:
                     pass
                 edit_args(name="language", arg=language)
                 self.set_language()
             except:
-                lang = edit.get_config("language")
+                lang = (edit.get_lang())["meta"]["language"]
 
                 self.ui.comboBox.setCurrentText(lang)
         else: 
@@ -693,10 +694,13 @@ class setting_app(QDialog):
 
         lang_list = self.get_lang()
 
+        language = (edit.get_lang())["meta"]["language"]
+
         self.ui.comboBox.clear()
 
         for lang in lang_list:
             self.ui.comboBox.addItem(lang)
+
         self.ui.comboBox.setCurrentText(language)
         self.ui.sb_amount_history.setValue(count)
 
@@ -849,11 +853,27 @@ class setting_app(QDialog):
 
         files = path.iterdir()
 
+        name_list = list()
         result = list()
 
         for file in files:
             if file.suffix == ".yaml":
-                result.append(f"{file.stem}")
+                name_list.append(f"{file.stem}")
+
+        path_to_lang = self.paths["language"]
+
+        for name_file in name_list:
+            __path = path_to_lang + f"/{name_file}.yaml"
+            with open(__path, "r", encoding="utf-8") as file:
+                data_lang = yaml.safe_load(file)
+
+            name = data_lang["meta"]["language"]
+            code = data_lang["meta"]["code"]
+            #if not name in result:
+            result.append(f"{name}")
+            self.language_dict[f"{name}"] = name_file
+            #else:
+                #result.append(f"{name} ({code})")
 
         return result
 
