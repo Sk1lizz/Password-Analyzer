@@ -1,6 +1,8 @@
 import json
 import yaml
 
+from datetime import datetime
+
 """
 
 """
@@ -65,7 +67,7 @@ class edit_data:
         
         return result
 
-    def add_history(self, message: str | None) -> bool:
+    def add_history(self, message: str | None, status: int | None = None, entropy: float = 0.0) -> bool:
         if message is None:
             return False
         
@@ -76,8 +78,12 @@ class edit_data:
         except:
             return False
         
+        time = datetime.now().strftime('%Y-%m-%d %H:%M')
+        
+        first_text = f"{time} | {message} | {status} | {entropy}"
+        
 
-        text = f"{message}\n{__data}"
+        text = f"{first_text}\n{__data}"
         
         try:
             with open(self.path_to_history, mode="w", encoding="utf-8") as __file:

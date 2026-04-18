@@ -5,10 +5,11 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QCheckBox, QComboBox, QDialog,
-    QGridLayout, QHBoxLayout, QLabel, QPushButton,
+from PySide6.QtWidgets import (QApplication, QCheckBox, QDialog, QGridLayout,
+    QHBoxLayout, QLabel, QLineEdit, QPushButton,
     QSizePolicy, QSpacerItem, QSpinBox, QVBoxLayout,
     QWidget)
+import src.views.ui.config_setting_rc as config_setting_rc
 
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
@@ -17,7 +18,7 @@ class Ui_Dialog(object):
         Dialog.resize(550, 611)
         Dialog.setMinimumSize(QSize(550, 600))
         icon = QIcon()
-        icon.addFile(u"C:/Users/resources/icons/icon-white.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon.addFile(u"resources\\icons\\icon-white.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         Dialog.setWindowIcon(icon)
         Dialog.setStyleSheet(u"")
         self.verticalLayout = QVBoxLayout(Dialog)
@@ -174,6 +175,15 @@ class Ui_Dialog(object):
 
         self.gridLayout = QGridLayout()
         self.gridLayout.setObjectName(u"gridLayout")
+        self.horizontalSpacer_8 = QSpacerItem(40, 20, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Minimum)
+
+        self.gridLayout.addItem(self.horizontalSpacer_8, 0, 4, 1, 1)
+
+        self.le_language = QLineEdit(Dialog)
+        self.le_language.setObjectName(u"le_language")
+
+        self.gridLayout.addWidget(self.le_language, 0, 3, 1, 1)
+
         self.lbl_lang = QLabel(Dialog)
         self.lbl_lang.setObjectName(u"lbl_lang")
         font2 = QFont()
@@ -185,29 +195,15 @@ class Ui_Dialog(object):
         self.lbl_lang.setStyleSheet(u"font-size: 11pt;")
         self.lbl_lang.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        self.gridLayout.addWidget(self.lbl_lang, 1, 1, 1, 1)
-
-        self.horizontalSpacer_8 = QSpacerItem(40, 20, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Minimum)
-
-        self.gridLayout.addItem(self.horizontalSpacer_8, 1, 4, 1, 1)
+        self.gridLayout.addWidget(self.lbl_lang, 0, 1, 1, 1)
 
         self.horizontalSpacer_7 = QSpacerItem(40, 20, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Minimum)
 
-        self.gridLayout.addItem(self.horizontalSpacer_7, 1, 0, 1, 1)
+        self.gridLayout.addItem(self.horizontalSpacer_7, 0, 0, 1, 1)
 
         self.horizontalSpacer_9 = QSpacerItem(30, 20, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Minimum)
 
-        self.gridLayout.addItem(self.horizontalSpacer_9, 1, 2, 1, 1)
-
-        self.comboBox = QComboBox(Dialog)
-        self.comboBox.setObjectName(u"comboBox")
-        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
-        sizePolicy1.setHorizontalStretch(0)
-        sizePolicy1.setVerticalStretch(0)
-        sizePolicy1.setHeightForWidth(self.comboBox.sizePolicy().hasHeightForWidth())
-        self.comboBox.setSizePolicy(sizePolicy1)
-
-        self.gridLayout.addWidget(self.comboBox, 1, 3, 1, 1)
+        self.gridLayout.addItem(self.horizontalSpacer_9, 0, 2, 1, 1)
 
 
         self.verticalLayout.addLayout(self.gridLayout)
