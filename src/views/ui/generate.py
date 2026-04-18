@@ -16,7 +16,7 @@ class Ui_MainWindow(object):
         MainWindow.resize(500, 750)
         MainWindow.setMinimumSize(QSize(500, 750))
         icon = QIcon()
-        icon.addFile(u"resources\\icons\\icon-white.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon.addFile(u"resources/icons/icon-white.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         MainWindow.setWindowIcon(icon)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")

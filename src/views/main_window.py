@@ -11,6 +11,7 @@ from PySide6.QtCore import QTimer
 
 from src.views.setting_window import setting_app
 from src.views.generate_window import generate_app
+from src.views.history_window import history_app
 
 
 class main_app(QMainWindow):
@@ -42,6 +43,7 @@ class main_app(QMainWindow):
 
         self.ui.btn_setting.clicked.connect(self.open_setting)
         self.ui.btn_generate.clicked.connect(self.open_generate)
+        self.ui.btn_history.clicked.connect(self.open_history)
 
     def set_language(self) -> None:
         edit = edit_data(self.paths)
@@ -397,6 +399,13 @@ class main_app(QMainWindow):
 
         else:
             self.generate.open_setting()
+
+    def open_history(self) -> None:
+        history = history_app()
+
+        history.set_paths(paths=self.paths)
+
+        history.exec()
         
 
     def theme(self) -> None:

@@ -7,7 +7,7 @@ meta:
   code: "ru-RU"
   author: "skilizz"
   version: "1.0.0"
-  last_update: "15.04.2026"
+  last_update: "18.04.2026"
 
 
 # ==========================================================
@@ -109,3 +109,31 @@ generate:
     number: "Использовать числа"
     special: "Использовать спецсимволы"
     error: "❌ Невозможно сгенерировать пароль"
+    
+
+history: 
+  name: "PasswordAnalyzer - history"
+  title: "📜 История проверок 📜"
+
+  table:
+    date: "🕐 Дата/Время"
+    password: "🔒 Пароль"
+    result-password: "💪 Оценка"
+    entropy: "📊 Энтропия"
+
+  name-result:
+    strong: "🎯 Сильный"
+    medium: "🔸 Средний"
+    weak: "⚠️ Слабый"
+    bad: "💩 Ужасный"
+
+  bit: "<len> бит"
+
+
+  result: "📊 Всего: <len_total>  │ 🎯 <len_strong>  │ 🔸 <len_medium>  │ ⚠️ <len_weak> │ 💩 <len_bad>"
+
+  button:
+    clear: "🗑️ Очистить историю"
+    successful-clear: ""
+    copy: "📋 Копировать"
+    successful-copy: "✅ Скопировано!"

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>550</width>
-    <height>611</height>
+    <height>600</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -47,15 +47,15 @@ QCheckBox {
 }
 
 QComboBox {
-    background-color: #2d2d2d;    /* тёмно-серый фон */
-    color: #ffffff;                /* белый текст */
-    border: 1px solid #3c3c3c;    /* тёмная граница */
+    background-color: #2d2d2d; 
+    color: #ffffff;
+    border: 1px solid #3c3c3c;
     border-radius: 4px;
     padding: 5px;
 }
 
 QComboBox:hover {
-    background-color: #3c3c3c;    /* чуть светлее при наведении */
+    background-color: #3c3c3c;
 }
 
 QComboBox::drop-down {
@@ -63,9 +63,9 @@ QComboBox::drop-down {
 }
 
 QComboBox QAbstractItemView {
-    background-color: #2d2d2d;    /* тёмный фон списка */
-    color: #ffffff;                /* белый текст в списке */
-    selection-background-color: #094771;  /* синее выделение */
+    background-color: #2d2d2d; 
+    color: #ffffff;
+    selection-background-color: #094771; 
 }</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
