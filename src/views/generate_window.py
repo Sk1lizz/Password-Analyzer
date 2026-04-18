@@ -1,4 +1,4 @@
-from src.views.generate import Ui_MainWindow
+from src.views.ui.generate import Ui_MainWindow
 
 from src.utils.edit_data import edit_data
 from src.models.generate import generate_password

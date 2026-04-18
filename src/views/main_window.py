@@ -1,4 +1,4 @@
-from src.views.main import Ui_MainWindow
+from src.views.ui.main import Ui_MainWindow
 
 from src.utils.edit_data import edit_data
 from src.models.checked import Check
@@ -27,6 +27,7 @@ class main_app(QMainWindow):
 
     generate = None
     status_result = -1
+    entropy_result = 0
 
     def __init__(self) -> None:
         super(main_app, self).__init__()
@@ -166,6 +167,8 @@ class main_app(QMainWindow):
         main_text = self.text
 
         len_password = str(len(password))
+
+        self.entropy_result = float(message["entropy"]["numbers"])
 
         main_text = main_text.replace("<entropy>", f"{message["entropy"]["numbers"]}").replace("<len>", f"{len_password}")
 
@@ -357,7 +360,7 @@ class main_app(QMainWindow):
 
         password = self.ui.le_password.text()
 
-        edit.add_history(message=password, status=self.status_result)
+        edit.add_history(message=password, status=self.status_result, entropy=self.entropy_result)
 
     def open_generate(self) -> None:
         generate = generate_app(self)

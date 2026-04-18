@@ -8,16 +8,16 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QApplication, QGridLayout, QHBoxLayout, QLabel,
     QLineEdit, QMainWindow, QProgressBar, QPushButton,
     QSizePolicy, QSpacerItem, QVBoxLayout, QWidget)
-import config_rc
+import src.views.ui.config_rc as config_rc
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(500, 700)
-        MainWindow.setMinimumSize(QSize(500, 700))
+        MainWindow.resize(550, 750)
+        MainWindow.setMinimumSize(QSize(550, 750))
         icon = QIcon()
-        icon.addFile(u"C:/Users/resources/icons/icon-white.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon.addFile(u"resources\\icons\\icon-white.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         MainWindow.setWindowIcon(icon)
         MainWindow.setStyleSheet(u"QMainWindow {\n"
 "    background-color: #1e1e1e;\n"

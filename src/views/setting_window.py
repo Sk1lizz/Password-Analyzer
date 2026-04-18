@@ -1,4 +1,4 @@
-from src.views.setting import Ui_Dialog
+from src.views.ui.setting import Ui_Dialog
 
 from src.utils.edit_data import edit_data
 

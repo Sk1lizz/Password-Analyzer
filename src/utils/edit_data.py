@@ -67,7 +67,7 @@ class edit_data:
         
         return result
 
-    def add_history(self, message: str | None, status: int | None = None) -> bool:
+    def add_history(self, message: str | None, status: int | None = None, entropy: float = 0.0) -> bool:
         if message is None:
             return False
         
@@ -80,7 +80,7 @@ class edit_data:
         
         time = datetime.now().strftime('%Y-%m-%d %H:%M')
         
-        first_text = f"{time} | {message} | {status}"
+        first_text = f"{time} | {message} | {status} | {entropy}"
         
 
         text = f"{first_text}\n{__data}"
