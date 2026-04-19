@@ -7,7 +7,7 @@ meta:
   code: "en-EN"
   author: "skilizz"
   version: "1.0.0"
-  last_update: "15.04.2026"
+  last_update: "19.04.2026"
 
 
 # ==========================================================
@@ -108,4 +108,36 @@ generate:
     custom: "Use Russian letters"
     number: "Use numbers"
     special: "Use special characters"
-    error: "❌ Cannot generate password"
+    error: "❌ Cannot generate password"    
+
+history: 
+  name: "PasswordAnalyzer - history"
+  title: "📜 Password History 📜"
+
+  table:
+    date: "🕐 Date/Time"
+    password: "🔒 Password"
+    result-password: "💪 Strength"
+    entropy: "📊 Entropy"
+
+  name-result:
+    strong: "🎯 Strong"
+    medium: "🔸 Medium"
+    weak: "⚠️ Weak"
+    bad: "💩 Terrible"
+
+  bit: "<len> bits"
+
+  result: "📊 Total: <len_total>  │ 🎯 <len_strong>  │ 🔸 <len_medium>  │ ⚠️ <len_weak> │ 💩 <len_bad>"
+
+  button:
+    clear: "🗑️ Clear history"
+    copy: "📋 Copy"
+    successful-copy: "✅ Copied!"
+
+  message-box:
+    title: "Confirmation"
+    text: "Are you sure?"
+    button: 
+      yes_btn: "✅ Yes, I'm sure"
+      no_btn: "❌ No, cancel"

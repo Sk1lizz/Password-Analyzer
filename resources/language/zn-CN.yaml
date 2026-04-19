@@ -1,0 +1,144 @@
+# 密码分析器的语言文件
+# 版本: 1.0.0
+# 语言: 简体中文
+
+meta:
+  language: "简体中文"
+  code: "zh-CN"
+  author: "skilizz"
+  version: "1.0.0"
+  last_update: "2026.04.15"
+
+
+# ==========================================================
+# =================== 主要标签 =============================
+# ==========================================================
+
+
+app:
+  name: "PasswordAnalyzer"
+  title: "🔐 密码分析器 🔐"
+  waiting-message: "请输入密码..."
+  result-text: "结果: "
+
+  full-text: "📊 详细分析:"
+  text-result-full: 
+    len: "长度: <len> 个字符"
+    len-suffix:
+      0: "字符"
+      1: "字符"
+      2: "字符"
+    upper: "大写字母: A-Z"
+    lower: "小写字母: a-z"
+    number: "数字: 0-9"
+    special: "特殊字符: !@#$%"
+    entropy: "熵: <entropy> 比特"
+
+    liked-password: "与常见密码的相似度: "
+    result-liked: "状态: <status>"
+    result-liked-password:
+      0: "无"
+      1: "相似"
+      2: "完全匹配"
+    if-liked: "密码类似于"
+
+    power-password: "💪 强度: "
+  
+  status-text: 
+    -1: "错误"        
+    0: "糟糕的密码"               
+    1: "非常差的密码"
+    2: "差密码"
+    3: "普通密码"
+    4: "好密码"
+    5: "优秀的密码"
+    6: "极好的密码"
+    7: "最安全的密码"
+  
+  status:
+    -1: "错误"
+    0: "糟糕"
+    1: "糟糕"
+    2: "差"
+    3: "普通"
+    4: "好"
+    5: "优秀"
+    6: "优秀"
+    7: "极好"
+
+  button-text:
+    setting: "⚙️ 设置"
+    generate: "🎲 生成"
+    history: "📜 历史记录"
+    show-password: "🔓 显示密码"
+    hide-password: "🔒 隐藏密码"
+    copy: "📋 复制"
+    successful-copy: "✅ 已复制！"
+
+setting:
+  name: "PasswordAnalyzer - 设置"
+  title: "设置"
+  title-theme: "主题:"
+  theme:
+    light: "浅色"
+    dark: "深色"
+    system: "跟随系统"
+  title-history: "最大历史记录数:"
+  title-language: "语言:"
+  waiting-message: "选择语言"
+  button-save: "保存更改"
+  successful-save: "✅ 设置已应用！"
+  
+
+generate:
+  name: "PasswordAnalyzer - 生成器"
+  title: "🔐 密码生成器 🔐"
+  button:
+    generate: "🎲 生成"
+    setting: "⚙️ 设置"
+    main-app: "🔐 分析器"
+    history: "📜 历史记录"
+    copy: "📋 复制"
+    successful-copy: "✅ 已复制！"
+
+  text-result-full:
+    len: "<len> 个字符"
+    upper: "使用大写字母"
+    lower: "使用小写字母"
+    custom: "使用俄文字母"
+    number: "使用数字"
+    special: "使用特殊字符"
+    error: "❌ 无法生成密码"    
+
+history: 
+  name: "PasswordAnalyzer - 历史记录"
+  title: "📜 密码历史记录 📜"
+
+  table:
+    date: "🕐 日期/时间"
+    password: "🔒 密码"
+    result-password: "💪 强度"
+    entropy: "📊 熵"
+
+  name-result:
+    strong: "🎯 强"
+    medium: "🔸 中等"
+    weak: "⚠️ 弱"
+    bad: "💩 糟糕"
+
+  bit: "<len> 比特"
+
+  result: "📊 总计: <len_total>  │ 🎯 <len_strong>  │ 🔸 <len_medium>  │ ⚠️ <len_weak> │ 💩 <len_bad>"
+
+  button:
+    clear: "🗑️ 清空历史记录"
+    successful-clear: ""
+    copy: "📋 复制"
+    successful-copy: "✅ 已复制！"
+
+  message-box:
+    title: "确认"
+    text: "您确定吗？"
+    button: 
+      yes_btn: "✅ 确定"
+      no_btn: "❌ 取消"

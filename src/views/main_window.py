@@ -546,6 +546,8 @@ class main_app(QMainWindow):
                 self.setStyleSheet(self.css_theme_dark)
                 self.style_normal = "background-color: #2d2d2d;"
                 self.none_text = "🌫️"
+
+        self.ui.btn_copy.setStyleSheet(self.style_normal)
         
         self.set_default_text()
 

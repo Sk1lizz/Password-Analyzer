@@ -80,6 +80,8 @@ class history_app(QDialog):
 
         self.set_language()
 
+        self.theme()
+
 
     def set_default_table(self) -> None:
         table = self.ui.table
@@ -96,6 +98,12 @@ class history_app(QDialog):
         amount = int(edit.get_config(arg="history-amount"))
 
         history = edit.get_history(amount_history=amount)
+        
+
+        if len(history) == 0 or history == [""]: return None
+
+        if "" in history: 
+            history.remove("")
 
         dict_item = dict()
         amount_history = 0
@@ -167,16 +175,16 @@ class history_app(QDialog):
         self.ui.btn_copy.setText(self.button["successful-copy"])
         self.ui.btn_copy.setStyleSheet(style)
         QTimer.singleShot(1000, lambda: self.ui.btn_copy.setText(self.button["copy"]))
-        #QTimer.singleShot(1000, lambda: self.ui.btn_copy.setStyleSheet(self.style_normal))
+        QTimer.singleShot(1000, lambda: self.ui.btn_copy.setStyleSheet(self.style_normal))
 
     def clear(self) -> None:
+        state = False
         reply = QMessageBox(self)
 
         reply.setWindowTitle(self.message_box["title"])
         reply.setText(self.message_box["text"])
 
         button_text = self.message_box["button"]
-        print(self.message_box)
 
         yes_btn = reply.addButton(button_text["yes_btn"], QMessageBox.YesRole)
         no_btn = reply.addButton(button_text["no_btn"], QMessageBox.NoRole)
@@ -184,6 +192,214 @@ class history_app(QDialog):
         reply.exec()
 
         if reply.clickedButton() == yes_btn:
-            print(1)
+            self.ui.table.setRowCount(0)
+
+            try:
+                with open(self.paths["history"], "w") as file:
+                    file.write("")
+            except:
+                pass
+
         else:
-            print(2)
+            return None
+        
+
+    def theme(self) -> None:
+        self.ui.btn_clear.setObjectName("dangerButton")
+
+        light = """QDialog {
+            background-color: #f5f5f5;
+        }
+
+        QLabel {
+            color: #000000;
+            background-color: transparent;
+            font-size: 12px;
+        }
+
+        QTableWidget {
+            background-color: #ffffff;
+            alternate-background-color: #f9f9f9;
+            gridline-color: #e0e0e0;
+            border: 1px solid #d0d0d0;
+            border-radius: 8px;
+        }
+
+        QTableWidget::item {
+            padding: 8px;
+            color: #000000;
+        }
+
+        QTableWidget::item:selected {
+            background-color: #1976d2;
+            color: #ffffff;
+        }
+
+        QHeaderView::section {
+            background-color: #f0f0f0;
+            color: #000000;
+            padding: 8px;
+            border: 1px solid #d0d0d0;
+            font-weight: bold;
+        }
+
+        QTableCornerButton::section {
+            background-color: #f0f0f0;
+            border: 1px solid #d0d0d0;
+        }
+
+        QHeaderView::section:horizontal {
+            background-color: #f0f0f0;
+            color: #000000;
+        }
+
+        QHeaderView::section:vertical {
+            background-color: #f0f0f0;
+            color: #000000;
+        }
+
+        QHeaderView::down-arrow {
+            image: none;
+        }
+
+        QHeaderView::up-arrow {
+            image: none;
+        }
+
+        QPushButton {
+            background-color: #ffffff;
+            color: #000000;
+            border: 1px solid #d0d0d0;
+            border-radius: 4px;
+            padding: 8px 16px;
+        }
+
+        QPushButton:hover {
+            background-color: #f0f0f0;
+        }
+
+        QPushButton:pressed {
+            background-color: #e0e0e0;
+        }
+        
+        QPushButton#dangerButton {
+            color: #f44336;
+            border-color: #f44336;
+        }
+
+        QPushButton#dangerButton:hover {
+            background-color: #f44336;
+            color: #ffffff;
+        }"""
+
+        dark = """QDialog {
+            background-color: #1e1e1e;
+        }
+
+        QLabel {
+            color: #ffffff;
+            background-color: transparent;
+            font-size: 12px;
+        }
+
+        QTableWidget {
+            background-color: #2d2d2d;
+            alternate-background-color: #252525;
+            gridline-color: #3c3c3c;
+            border: 1px solid #3c3c3c;
+            border-radius: 8px;
+        }
+
+        QTableWidget::item {
+            padding: 8px;
+            color: #ffffff;
+        }
+
+        QTableWidget::item:selected {
+            background-color: #094771;
+            color: #ffffff;
+        }
+
+        QHeaderView::section {
+            background-color: #252525;
+            color: #ffffff;
+            padding: 8px;
+            border: 1px solid #3c3c3c;
+            font-weight: bold;
+        }
+
+        QTableCornerButton::section {
+            background-color: #252525;
+            border: 1px solid #3c3c3c;
+        }
+
+        QHeaderView::section:horizontal {
+            background-color: #252525;
+            color: #ffffff;
+        }
+
+        QHeaderView::section:vertical {
+            background-color: #252525;
+            color: #ffffff;
+        }
+
+        QHeaderView::down-arrow {
+            image: none;
+        }
+
+        QHeaderView::up-arrow {
+            image: none;
+        }
+
+        QPushButton {
+            background-color: #2d2d2d;
+            color: #ffffff;
+            border: 1px solid #3c3c3c;
+            border-radius: 4px;
+            padding: 8px 16px;
+        }
+
+        QPushButton:hover {
+            background-color: #3c3c3c;
+        }
+
+        QPushButton:pressed {
+            background-color: #1e1e1e;
+        }
+
+        QPushButton#dangerButton {
+            color: #f44336;
+            border-color: #f44336;
+        }
+
+        QPushButton#dangerButton:hover {
+            background-color: #f44336;
+            color: #ffffff;
+        }"""
+
+        self.style_normal = "background-color: #2d2d2d;"
+
+        edit = edit_data(self.paths)
+
+        theme = edit.get_config("theme")
+
+        match theme:
+            case "dark":
+                self.setStyleSheet(dark)
+                self.style_normal = "background-color: #2d2d2d;"
+            
+            case "light":
+                self.setStyleSheet(light)
+                self.style_normal = "background-color: #ffffff;"
+
+            case "system": 
+                if darkdetect.isDark():
+                    self.setStyleSheet(dark)
+                    self.style_normal = "background-color: #2d2d2d;"
+                else:
+                    self.setStyleSheet(light)
+                    self.style_normal = "background-color: #ffffff;"
+
+            case _:
+                self.setStyleSheet(dark)
+                self.style_normal = "background-color: #2d2d2d;"

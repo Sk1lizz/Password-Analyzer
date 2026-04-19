@@ -3,6 +3,8 @@ from pathlib import Path
 import os
 import json
 
+import src.utils.language_config as lang_files
+
 
 """
 
@@ -17,10 +19,12 @@ config_data = {
     "common-level": "3"
 }
 
-language_data_RU = '''...'''
+language_data_RU = lang_files.ru_RU
 
+language_data_EN = lang_files.en_EN
 
-language_data_EN = ''''''
+language_data_CN = lang_files.zn_CH
+
 
 history_data = ""
 
@@ -93,6 +97,7 @@ class create_files:
             self.path_to_common_file = path_common_file
 
             path_to_lang_en = path_lang / f"en-EN.yaml"
+            path_to_lang_cn = path_lang / f"zn-CN.yaml"
 
             path_to_history.parent.mkdir(parents=True, exist_ok=True)
             path_to_lang.parent.mkdir(parents=True, exist_ok=True)
@@ -108,6 +113,9 @@ class create_files:
 
             if not path_to_lang_en.exists():
                 path_to_lang_en.write_text(data=language_data_EN, encoding="utf-8")
+
+            if not path_to_lang_cn.exists():
+                path_to_lang_cn.write_text(data=language_data_CN, encoding="utf-8")
 
             if not path_to_config.exists():
                 with open(path_to_config, "w", encoding="utf-8") as __file:

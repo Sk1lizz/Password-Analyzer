@@ -9,6 +9,7 @@ from PySide6.QtWidgets import QApplication, QMainWindow
 from PySide6.QtCore import QTimer, Signal
 
 from src.views.setting_window import setting_app
+from src.views.history_window import history_app
 
 
 class generate_app(QMainWindow):
@@ -32,6 +33,7 @@ class generate_app(QMainWindow):
 
         self.ui.btn_generate.clicked.connect(self.generate)
         self.ui.btn_main.clicked.connect(self.close)
+        self.ui.btn_history.clicked.connect(self.open_history)
         
 
     def set_language(self) -> None:
@@ -167,6 +169,13 @@ class generate_app(QMainWindow):
 
         self.theme()
 
+    def open_history(self) -> None:
+        history = history_app()
+
+        history.set_paths(paths=self.paths)
+
+        history.exec()
+
     def theme(self) -> None:
         self.css_theme_dark = """QMainWindow {
                 background-color: #1e1e1e;
@@ -300,6 +309,8 @@ class generate_app(QMainWindow):
             case _:
                 self.setStyleSheet(self.css_theme_dark)
                 self.style_normal = "background-color: #2d2d2d;"
+
+        self.ui.btn_copy.setStyleSheet(self.style_normal)
         return None
     
     def closeEvent(self, event):
