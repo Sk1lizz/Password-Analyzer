@@ -1,6 +1,6 @@
-from src.views.ui.history import Ui_Dialog
+from src.views.ui import Ui_HistoryDialog
 
-from src.utils.edit_data import edit_data
+from src.utils import edit_data
 
 import darkdetect
 import re
@@ -24,7 +24,7 @@ class history_app(QDialog):
 
     def __init__(self) -> None:
         super(history_app, self).__init__()
-        self.ui = Ui_Dialog()
+        self.ui = Ui_HistoryDialog()
         self.ui.setupUi(self)
 
         self.set_default_table()

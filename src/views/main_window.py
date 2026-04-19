@@ -1,7 +1,7 @@
-from src.views.ui.main import Ui_MainWindow
+from src.views.ui import Ui_MainWindow
 
-from src.utils.edit_data import edit_data
-from src.models.checked import Check
+from src.utils import edit_data
+from src.models import Check
 
 import sys
 import darkdetect
@@ -90,6 +90,8 @@ class main_app(QMainWindow):
         self.ui.btn_copy.setText(self.button["copy"])
         self.ui.btn_setting.setText(self.button["setting"])
         self.ui.btn_history.setText(self.button["history"])
+
+        self.ui.lbl_full_result_4.setText(self.full_text)
         
         if not self.password_hide:
             self.ui.le_password.setEchoMode(QLineEdit.EchoMode.Normal)
@@ -553,18 +555,3 @@ class main_app(QMainWindow):
 
         self.start_program()
         return None
-
-
-class main:
-    def __init__(self) -> None:
-        self.app = QApplication(sys.argv)
-
-        self.window = main_app()
-        self.window.show()
-
-    def start(self) -> None:
-        sys.exit(self.app.exec())
-
-    def set_config(self, dict_config: dict) -> None:
-        self.window.set_paths(dict_config)
-    

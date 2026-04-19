@@ -1,7 +1,7 @@
-from src.views.ui.generate import Ui_MainWindow
+from src.views.ui import Ui_GenerateWindow
 
-from src.utils.edit_data import edit_data
-from src.models.generate import generate_password
+from src.utils import edit_data
+from src.models import Generate
 
 import darkdetect
 
@@ -23,7 +23,7 @@ class generate_app(QMainWindow):
 
     def __init__(self, parent=None) -> None:
         super(generate_app, self).__init__(parent)
-        self.ui = Ui_MainWindow()
+        self.ui = Ui_GenerateWindow()
         self.ui.setupUi(self)
 
         self.ui.btn_copy.clicked.connect(self.copy)
@@ -111,7 +111,7 @@ class generate_app(QMainWindow):
         bool_number = self.ui.cb_number.isChecked()
         bool_special = self.ui.cb_special.isChecked()\
         
-        module = generate_password()
+        module = Generate()
 
         if not (bool_upper or bool_lower or bool_special or bool_number): 
             self.ui.password.setText(self.error_message)

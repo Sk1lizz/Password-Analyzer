@@ -1,4 +1,4 @@
-from src.views.main_window import main_app
+from src.views import start
 import sys
 from PySide6.QtWidgets import QApplication
 
@@ -6,7 +6,7 @@ class main:
     def __init__(self) -> None:
         self.app = QApplication(sys.argv)
 
-        self.window = main_app()
+        self.window = start()
         self.window.show()
 
     def start(self) -> None:

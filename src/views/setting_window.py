@@ -1,6 +1,6 @@
-from src.views.ui.setting import Ui_Dialog
+from src.views.ui import Ui_SettingsDialog
 
-from src.utils.edit_data import edit_data
+from src.utils import edit_data
 
 import darkdetect
 from pathlib import Path
@@ -21,7 +21,7 @@ class setting_app(QDialog):
 
     def __init__(self) -> None:
         super(setting_app, self).__init__()
-        self.ui = Ui_Dialog()
+        self.ui = Ui_SettingsDialog()
         self.ui.setupUi(self)
 
         self.ui.btn_confirm.clicked.connect(self.confirm_setting)
