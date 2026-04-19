@@ -12,10 +12,6 @@ from PySide6.QtWidgets import QMessageBox
 
 class history_app(QDialog):
 
-    """
-    
-    """
-
     amount: dict
 
     bool_entropy = True

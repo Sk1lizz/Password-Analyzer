@@ -15,10 +15,6 @@ from src.views.history_window import history_app
 
 
 class main_app(QMainWindow):
-    
-    """
-    
-    """
 
     true_text = "✅"
     false_text = "❌"

@@ -1,17 +1,12 @@
 import random
 
-"""
-
-"""
-
-
 class generate_password:
-    length: int #
-    upper: bool # 
-    lower: bool # 
-    special_char: bool # 
-    numbers: bool #
-    russian_letters : bool #
+    length: int
+    upper: bool 
+    lower: bool 
+    special_char: bool 
+    numbers: bool 
+    russian_letters : bool 
 
     UPPER = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     UPPER_RUSSIAN = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"
@@ -20,7 +15,7 @@ class generate_password:
     SPECIAL_CHAR = r"[!\"#$%&\'()*+,\-./:;<=>?@\[\\\]^_`{|}~]"
     NUMBERS = "0123456789"
 
-    confirm_setting: bool # 
+    confirm_setting: bool 
 
     def __init__(self) -> None:
         self.confirm_setting = False

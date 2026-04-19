@@ -1,10 +1,6 @@
 import re
 import math
 
-"""
-
-"""
-
 class Check:
 
     level: int

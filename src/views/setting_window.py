@@ -10,10 +10,6 @@ from PySide6.QtWidgets import QDialog
 from PySide6.QtCore import QTimer, Signal
 
 class setting_app(QDialog):
-    
-    """
-    
-    """
 
     save_setting = Signal()
 

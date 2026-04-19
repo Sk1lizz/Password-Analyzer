@@ -6,10 +6,6 @@ import json
 import src.utils.language_config as lang_files
 
 
-"""
-
-"""
-
 config_data = {
     "name": "PasswordAnalyzer",
     "version": "1.0.0",
@@ -36,20 +32,20 @@ history_data = ""
 
 class create_files:
 
-    __name: str # 
-    __dir_setting: str # 
-    __dir_common: str # 
-    __dir_lang: str # 
-    __dir_common_files: str # 
+    __name: str 
+    __dir_setting: str 
+    __dir_common: str 
+    __dir_lang: str 
+    __dir_common_files: str 
 
-    __file_setting: str # 
-    __file_history: str # 
-    __file_language: str # 
+    __file_setting: str  
+    __file_history: str  
+    __file_language: str 
 
-    path_to_config: str # 
-    path_to_history: str # 
-    path_to_language: str # 
-    path_to_common_file: str # 
+    path_to_config: str 
+    path_to_history: str 
+    path_to_language: str 
+    path_to_common_file: str  
 
 
     def __init__(self, config_dict: dict | None = None) -> None:
@@ -57,10 +53,9 @@ class create_files:
             raise SystemExit("byebye")
         
 
-        #
+        
         self.__name = config_dict["name"]
 
-        # 
         path_dict = config_dict["path"]
 
         self.__dir_setting = path_dict["setting"]
@@ -68,7 +63,6 @@ class create_files:
         self.__dir_lang = path_dict["language"]
         self.__dir_common_files = path_dict["common-files"]
 
-        # 
         name_file_dict = config_dict["name_file"]
 
         self.__file_setting = name_file_dict["setting"]
@@ -158,7 +152,8 @@ class create_files:
         if name_platform in name:
             return name_platform
         
-        pass
+        else:
+            raise SystemExit("Данный тип системы не поддерживается.\nНапишите в телеграм: @vlonisx")
 
 
     def get_path(self) -> dict:

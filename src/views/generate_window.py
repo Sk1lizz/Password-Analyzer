@@ -13,10 +13,6 @@ from src.views.history_window import history_app
 
 
 class generate_app(QMainWindow):
-    
-    """
-    
-    """
 
     closed = Signal()
     save = Signal()

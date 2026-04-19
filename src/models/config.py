@@ -1,7 +1,3 @@
-"""
-
-"""
-
 class config:
 
     NAME = "PasswordAnalyzer"

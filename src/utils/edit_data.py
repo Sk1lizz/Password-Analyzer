@@ -3,9 +3,6 @@ import yaml
 
 from datetime import datetime
 
-"""
-
-"""
 
 class edit_data:
 
