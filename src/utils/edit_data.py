@@ -1,11 +1,13 @@
+# PasswordAnalyzer - анализатор надёжности паролей
+# Copyright (c) 2026 skilizz
+# Released under the MIT License
+# https://opensource.org/licenses/MIT
+
 import json
 import yaml
 
 from datetime import datetime
 
-"""
-
-"""
 
 class edit_data:
 

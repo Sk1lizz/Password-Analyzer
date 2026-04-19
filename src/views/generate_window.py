@@ -1,7 +1,12 @@
-from src.views.ui.generate import Ui_MainWindow
+# PasswordAnalyzer - анализатор надёжности паролей
+# Copyright (c) 2026 skilizz
+# Released under the MIT License
+# https://opensource.org/licenses/MIT
 
-from src.utils.edit_data import edit_data
-from src.models.generate import generate_password
+from src.views.ui import Ui_GenerateWindow
+
+from src.utils import edit_data
+from src.models import Generate
 
 import darkdetect
 
@@ -9,20 +14,17 @@ from PySide6.QtWidgets import QApplication, QMainWindow
 from PySide6.QtCore import QTimer, Signal
 
 from src.views.setting_window import setting_app
+from src.views.history_window import history_app
 
 
 class generate_app(QMainWindow):
-    
-    """
-    
-    """
 
     closed = Signal()
     save = Signal()
 
     def __init__(self, parent=None) -> None:
         super(generate_app, self).__init__(parent)
-        self.ui = Ui_MainWindow()
+        self.ui = Ui_GenerateWindow()
         self.ui.setupUi(self)
 
         self.ui.btn_copy.clicked.connect(self.copy)
@@ -32,6 +34,7 @@ class generate_app(QMainWindow):
 
         self.ui.btn_generate.clicked.connect(self.generate)
         self.ui.btn_main.clicked.connect(self.close)
+        self.ui.btn_history.clicked.connect(self.open_history)
         
 
     def set_language(self) -> None:
@@ -109,7 +112,7 @@ class generate_app(QMainWindow):
         bool_number = self.ui.cb_number.isChecked()
         bool_special = self.ui.cb_special.isChecked()\
         
-        module = generate_password()
+        module = Generate()
 
         if not (bool_upper or bool_lower or bool_special or bool_number): 
             self.ui.password.setText(self.error_message)
@@ -166,6 +169,13 @@ class generate_app(QMainWindow):
         setting.exec()
 
         self.theme()
+
+    def open_history(self) -> None:
+        history = history_app()
+
+        history.set_paths(paths=self.paths)
+
+        history.exec()
 
     def theme(self) -> None:
         self.css_theme_dark = """QMainWindow {
@@ -300,6 +310,8 @@ class generate_app(QMainWindow):
             case _:
                 self.setStyleSheet(self.css_theme_dark)
                 self.style_normal = "background-color: #2d2d2d;"
+
+        self.ui.btn_copy.setStyleSheet(self.style_normal)
         return None
     
     def closeEvent(self, event):

@@ -1,12 +1,15 @@
+# PasswordAnalyzer - анализатор надёжности паролей
+# Copyright (c) 2026 skilizz
+# Released under the MIT License
+# https://opensource.org/licenses/MIT
+
 import platform
 from pathlib import Path
 import os
 import json
 
+import src.utils.language_config as lang_files
 
-"""
-
-"""
 
 config_data = {
     "name": "PasswordAnalyzer",
@@ -17,29 +20,37 @@ config_data = {
     "common-level": "3"
 }
 
-language_data_RU = '''...'''
+language_data_RU = lang_files.ru_RU
 
+language_data_EN = lang_files.en_EN
 
-language_data_EN = ''''''
+language_data_CN = lang_files.zn_CH
+
+common_one = lang_files.one
+
+common_two = lang_files.two
+
+common_three = lang_files.three
+
 
 history_data = ""
 
 class create_files:
 
-    __name: str # 
-    __dir_setting: str # 
-    __dir_common: str # 
-    __dir_lang: str # 
-    __dir_common_files: str # 
+    __name: str 
+    __dir_setting: str 
+    __dir_common: str 
+    __dir_lang: str 
+    __dir_common_files: str 
 
-    __file_setting: str # 
-    __file_history: str # 
-    __file_language: str # 
+    __file_setting: str  
+    __file_history: str  
+    __file_language: str 
 
-    path_to_config: str # 
-    path_to_history: str # 
-    path_to_language: str # 
-    path_to_common_file: str # 
+    path_to_config: str 
+    path_to_history: str 
+    path_to_language: str 
+    path_to_common_file: str  
 
 
     def __init__(self, config_dict: dict | None = None) -> None:
@@ -47,10 +58,9 @@ class create_files:
             raise SystemExit("byebye")
         
 
-        #
+        
         self.__name = config_dict["name"]
 
-        # 
         path_dict = config_dict["path"]
 
         self.__dir_setting = path_dict["setting"]
@@ -58,7 +68,6 @@ class create_files:
         self.__dir_lang = path_dict["language"]
         self.__dir_common_files = path_dict["common-files"]
 
-        # 
         name_file_dict = config_dict["name_file"]
 
         self.__file_setting = name_file_dict["setting"]
@@ -74,6 +83,10 @@ class create_files:
 
             if name_platform == "Windows":
                 path = Path(os.getenv("APPDATA"))
+            
+            elif name_platform == "Linux":
+                xdg_data_home = os.getenv("XDG_DATA_HOME", os.path.expanduser("~/.local/share"))
+                path = Path(xdg_data_home)
             
             main_path = path / f"{self.__name}"
 
@@ -93,6 +106,10 @@ class create_files:
             self.path_to_common_file = path_common_file
 
             path_to_lang_en = path_lang / f"en-EN.yaml"
+            path_to_lang_cn = path_lang / f"zn-CN.yaml"
+            path_to_common_1 = path_common_file / "1.txt"
+            path_to_common_2 = path_common_file / "2.txt"
+            path_to_common_3 = path_common_file / "3.txt"
 
             path_to_history.parent.mkdir(parents=True, exist_ok=True)
             path_to_lang.parent.mkdir(parents=True, exist_ok=True)
@@ -106,8 +123,20 @@ class create_files:
             if not path_to_lang.exists():
                 path_to_lang.write_text(data=language_data_RU, encoding="utf-8")
 
+            if not path_to_common_1.exists():
+                path_to_common_1.write_text(data=common_one, encoding="utf-8")
+
+            if not path_to_common_2.exists():
+                path_to_common_2.write_text(data=common_two, encoding="utf-8")
+
+            if not path_to_common_3.exists():
+                path_to_common_3.write_text(data=common_three, encoding="utf-8")
+
             if not path_to_lang_en.exists():
                 path_to_lang_en.write_text(data=language_data_EN, encoding="utf-8")
+
+            if not path_to_lang_cn.exists():
+                path_to_lang_cn.write_text(data=language_data_CN, encoding="utf-8")
 
             if not path_to_config.exists():
                 with open(path_to_config, "w", encoding="utf-8") as __file:
@@ -128,7 +157,8 @@ class create_files:
         if name_platform in name:
             return name_platform
         
-        pass
+        else:
+            raise SystemExit("Данный тип системы не поддерживается.\nНапишите в телеграм: @vlonisx")
 
 
     def get_path(self) -> dict:

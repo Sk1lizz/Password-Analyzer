@@ -1,9 +1,10 @@
+# PasswordAnalyzer - анализатор надёжности паролей
+# Copyright (c) 2026 skilizz
+# Released under the MIT License
+# https://opensource.org/licenses/MIT
+
 import re
 import math
-
-"""
-
-"""
 
 class Check:
 

@@ -1,0 +1,35 @@
+[project]
+name = "PasswordAnalyzer"
+version = "1.0.0"
+description = "Приложение для индивидуального проекта. Анализатор паролей."
+authors = [{name = "skilizz"}]
+license = {text = "MIT"}
+requires-python = ">=3.14.3"
+dependencies = [
+    "darkdetect>=0.8.0",
+    "PySide6>=6.10.2",
+    "PySide6_Addons>=6.10.2",
+    "PySide6_Essentials>=6.10.2",
+    "PyYAML>=6.0.3",
+    "shiboken6>=6.10.2"
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.14",
+    "Operating System :: Microsoft :: Windows", 
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: MacOS",
+    "Topic :: Security",
+]
+
+[project.urls]
+Homepage = "https://github.com/Sk1lizz/Password-Analyzer"
+BugTracker = "https://t.me/vlonisx"
+Repository = "https://github.com/Sk1lizz/Password-Analyzer.git"
+Documentation = "https://github.com/Sk1lizz/Password-Analyzer#readme"
+
+[project.scripts]
+password-analyzer = "run"

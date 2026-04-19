@@ -1,6 +1,11 @@
-from src.views.ui.setting import Ui_Dialog
+# PasswordAnalyzer - анализатор надёжности паролей
+# Copyright (c) 2026 skilizz
+# Released under the MIT License
+# https://opensource.org/licenses/MIT
 
-from src.utils.edit_data import edit_data
+from src.views.ui import Ui_SettingsDialog
+
+from src.utils import edit_data
 
 import darkdetect
 from pathlib import Path
@@ -10,10 +15,6 @@ from PySide6.QtWidgets import QDialog
 from PySide6.QtCore import QTimer, Signal
 
 class setting_app(QDialog):
-    
-    """
-    
-    """
 
     save_setting = Signal()
 
@@ -21,7 +22,7 @@ class setting_app(QDialog):
 
     def __init__(self) -> None:
         super(setting_app, self).__init__()
-        self.ui = Ui_Dialog()
+        self.ui = Ui_SettingsDialog()
         self.ui.setupUi(self)
 
         self.ui.btn_confirm.clicked.connect(self.confirm_setting)
