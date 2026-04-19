@@ -1,3 +1,8 @@
+# PasswordAnalyzer - анализатор надёжности паролей
+# Copyright (c) 2026 skilizz
+# Released under the MIT License
+# https://opensource.org/licenses/MIT
+
 from PySide6 import QtCore
 
 qt_resource_data = b"\

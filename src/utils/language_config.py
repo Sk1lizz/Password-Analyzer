@@ -1,3 +1,8 @@
+# PasswordAnalyzer - анализатор надёжности паролей
+# Copyright (c) 2026 skilizz
+# Released under the MIT License
+# https://opensource.org/licenses/MIT
+
 ru_RU = '''# Языковой файл для Password Analyzer
 # Версия: 1.0.0
 # Язык: Русский

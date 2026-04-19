@@ -1,3 +1,8 @@
+# PasswordAnalyzer - анализатор надёжности паролей
+# Copyright (c) 2026 skilizz
+# Released under the MIT License
+# https://opensource.org/licenses/MIT
+
 from src.views.ui import Ui_SettingsDialog
 
 from src.utils import edit_data

@@ -1,16 +1,39 @@
-from src.views import start
+# PasswordAnalyzer - анализатор надёжности паролей
+# Copyright (c) 2026 skilizz
+# Released under the MIT License
+# https://opensource.org/licenses/MIT
+
 import sys
 from PySide6.QtWidgets import QApplication
 
-class main:
-    def __init__(self) -> None:
+from src.views import start
+from src.utils import create_files
+from src.models import config
+
+class MainApp:
+    
+    def __init__(self):
         self.app = QApplication(sys.argv)
-
-        self.window = start()
+        self.window = None
+    
+    def setup(self, paths: dict):
+        self.window = start()  # создаём окно
+        self.window.set_paths(paths)
         self.window.show()
+    
+    def run(self):
+        return sys.exit(self.app.exec())
 
-    def start(self) -> None:
-        sys.exit(self.app.exec())
 
-    def set_config(self, dict_config: dict) -> None:
-        self.window.set_paths(dict_config)
+def main():
+    cfg = config()
+    path = cfg.get_config_path()
+    
+    createfiles = create_files(config_dict=path)
+    createfiles.create_file()
+    paths = createfiles.get_path()
+    
+    app = MainApp()
+    app.setup(paths)
+    app.run()
+

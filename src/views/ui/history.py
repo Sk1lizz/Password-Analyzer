@@ -1,3 +1,8 @@
+# PasswordAnalyzer - анализатор надёжности паролей
+# Copyright (c) 2026 skilizz
+# Released under the MIT License
+# https://opensource.org/licenses/MIT
+
 from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
     QMetaObject, QObject, QPoint, QRect,
     QSize, QTime, QUrl, Qt)
