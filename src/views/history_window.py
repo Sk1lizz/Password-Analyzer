@@ -3,9 +3,10 @@ from src.views.ui.history import Ui_Dialog
 from src.utils.edit_data import edit_data
 
 import darkdetect
+import re
 
 from PySide6.QtWidgets import QApplication, QDialog, QTableWidget, QTableWidgetItem
-from PySide6.QtCore import QTimer
+from PySide6.QtCore import QTimer, Qt
 from PySide6.QtWidgets import QHeaderView
 from PySide6.QtWidgets import QMessageBox
 
@@ -17,6 +18,10 @@ class history_app(QDialog):
 
     amount: dict
 
+    bool_entropy = True
+    bool_power = True
+    bool_password = True
+
     def __init__(self) -> None:
         super(history_app, self).__init__()
         self.ui = Ui_Dialog()
@@ -26,6 +31,8 @@ class history_app(QDialog):
 
         self.ui.btn_copy.clicked.connect(self.copy)
         self.ui.btn_clear.clicked.connect(self.clear)
+
+        self.ui.table.horizontalHeader().sectionClicked.connect(self.on_header_clicked)
 
     def set_language(self) -> None:
         edit = edit_data(self.paths)
@@ -155,12 +162,179 @@ class history_app(QDialog):
     
 
     def add_string(self, data: tuple) -> None:
-        self.ui.table.setRowCount(len(data))    
+        self.ui.table.setRowCount(len(data))   
+
+        dict_value = {
+            self.result["bad"]: 0,
+            self.result["weak"]: 1,
+            self.result["medium"]: 2,
+            self.result["strong"]: 3
+        }
 
         for row, row_data in enumerate(data):
             for col, value in enumerate(row_data):
-                self.ui.table.setItem(row, col, QTableWidgetItem(str(value)))
+                item = QTableWidgetItem(str(value))
+                item.setTextAlignment(Qt.AlignLeft | Qt.AlignVCenter)
 
+                if col == 2:
+                    try:
+                        number = int(dict_value[value])
+                    except:
+                        number = 0
+                    item.setData(Qt.UserRole, int(number))
+
+                if col == 3:
+                    if isinstance(value, (float, int)):
+                        number = value
+                    else:
+                        parts = str(value).split()
+                        try:
+                            number = float(parts[0])
+                        except (ValueError, IndexError):
+                            number = 0 
+
+                    item.setData(Qt.UserRole, number)
+
+                self.ui.table.setItem(row, col, item)
+
+        self.ui.table.setSortingEnabled(False)
+
+    def on_header_clicked(self, amount) -> None:
+        table = self.ui.table
+        count_row = table.rowCount()
+
+        list_row = list()
+
+        sorted_list_row = list()
+        
+        for row in range(count_row):
+            list_col = []
+            for col in range(4):
+                item = table.item(row, col)
+
+                list_col.append(item.text())
+            
+            list_row.append(list_col)
+
+        dict_sort = dict()
+        sort_list = list()
+        sort_list_key = list()
+
+        count = 0
+
+        if amount == 0:
+            for password in list_row:
+                dict_sort[count] = password[0]
+                count += 1
+
+            for i in dict_sort.values():
+                sort_list.append(i)
+            
+            new_sort_list = sorted(sort_list, reverse=self.bool_password)
+
+            self.bool_password = not self.bool_password
+
+            for i in new_sort_list:
+                for y in dict_sort.keys():
+                    if dict_sort[y] == i:
+                        sort_list_key.append(y)
+                        dict_sort[y] = -1
+                        break
+            
+            for i in sort_list_key:
+                sorted_list_row.append(list_row[i])
+
+            self.add_string(tuple(sorted_list_row))
+
+        if amount == 1:
+            for password in list_row:
+                dict_sort[count] = len(password[1])
+                count += 1
+
+            for i in dict_sort.values():
+                sort_list.append(i)
+            
+            new_sort_list = sorted(sort_list, reverse=self.bool_password)
+
+            self.bool_password = not self.bool_password
+
+            for i in new_sort_list:
+                for y in dict_sort.keys():
+                    if dict_sort[y] == i:
+                        sort_list_key.append(y)
+                        dict_sort[y] = -1
+                        break
+            
+            for i in sort_list_key:
+                sorted_list_row.append(list_row[i])
+
+            self.add_string(tuple(sorted_list_row))
+
+
+        if amount == 2:
+            dict_value = {
+                self.result["bad"]: 0,
+                self.result["weak"]: 1,
+                self.result["medium"]: 2,
+                self.result["strong"]: 3
+            }
+
+            for power in list_row:
+                text = power[2]
+                try:
+                    text = dict_value[text]
+                except:
+                    text = -1
+                dict_sort[count] = text
+                count += 1
+            
+            for number in dict_sort.values():
+                sort_list.append(int(number))
+            
+            new_sort_list = sorted(sort_list, reverse=self.bool_power)
+
+            self.bool_power = not self.bool_power
+
+            for i in new_sort_list:
+                for y in dict_sort.keys():
+                    if dict_sort[y] == i:
+                        sort_list_key.append(y)
+                        dict_sort[y] = -1
+                        break
+
+            for i in sort_list_key:
+                sorted_list_row.append(list_row[i])
+
+            self.add_string(tuple(sorted_list_row))
+
+        if amount == 3:
+            for entropy in list_row:
+                text = entropy[3].replace(f"{self.text_bit.replace("<len>", "")}", "")
+                dict_sort[count] = text
+                count += 1
+            
+            for float_number in dict_sort.values():
+                sort_list.append(float(float_number))
+
+            new_sort_list = sorted(sort_list, reverse=self.bool_entropy)
+
+            self.bool_entropy = not self.bool_entropy
+
+            for i in new_sort_list:
+                for y in dict_sort.keys():
+                    if dict_sort[y] == str(i):
+                        sort_list_key.append(y)
+                        dict_sort[y] = -1
+                        break
+
+            for i in sort_list_key:
+                sorted_list_row.append(list_row[i])
+
+            self.add_string(tuple(sorted_list_row))
+
+
+
+        
     def copy(self) -> None:
         selected = self.ui.table.selectionModel().selectedRows()
         if not selected: return

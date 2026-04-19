@@ -1,3 +1,9 @@
-from datetime import datetime
+ggg = {
+    "A": 1,
+    "B": 2,
+    "C": 3
+}
 
-print(datetime.now().strftime('%Y-%m-%d %H:%M'))
+a = "c"
+
+print(ggg[a])
