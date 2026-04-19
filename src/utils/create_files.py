@@ -25,6 +25,12 @@ language_data_EN = lang_files.en_EN
 
 language_data_CN = lang_files.zn_CH
 
+common_one = lang_files.one
+
+common_two = lang_files.two
+
+common_three = lang_files.three
+
 
 history_data = ""
 
@@ -79,6 +85,10 @@ class create_files:
             if name_platform == "Windows":
                 path = Path(os.getenv("APPDATA"))
             
+            elif name_platform == "Linux":
+                xdg_data_home = os.getenv("XDG_DATA_HOME", os.path.expanduser("~/.local/share"))
+                path = Path(xdg_data_home)
+            
             main_path = path / f"{self.__name}"
 
             path_setting = main_path / f"{self.__dir_setting}"
@@ -98,6 +108,9 @@ class create_files:
 
             path_to_lang_en = path_lang / f"en-EN.yaml"
             path_to_lang_cn = path_lang / f"zn-CN.yaml"
+            path_to_common_1 = path_common_file / "1.txt"
+            path_to_common_2 = path_common_file / "2.txt"
+            path_to_common_3 = path_common_file / "3.txt"
 
             path_to_history.parent.mkdir(parents=True, exist_ok=True)
             path_to_lang.parent.mkdir(parents=True, exist_ok=True)
@@ -110,6 +123,15 @@ class create_files:
 
             if not path_to_lang.exists():
                 path_to_lang.write_text(data=language_data_RU, encoding="utf-8")
+
+            if not path_to_common_1.exists():
+                path_to_common_1.write_text(data=common_one, encoding="utf-8")
+
+            if not path_to_common_2.exists():
+                path_to_common_2.write_text(data=common_two, encoding="utf-8")
+
+            if not path_to_common_3.exists():
+                path_to_common_3.write_text(data=common_three, encoding="utf-8")
 
             if not path_to_lang_en.exists():
                 path_to_lang_en.write_text(data=language_data_EN, encoding="utf-8")

@@ -14,8 +14,8 @@ class Ui_Dialog(object):
     def setupUi(self, Dialog):
         if not Dialog.objectName():
             Dialog.setObjectName(u"Dialog")
-        Dialog.resize(600, 700)
-        Dialog.setMinimumSize(QSize(600, 700))
+        Dialog.resize(650, 700)
+        Dialog.setMinimumSize(QSize(650, 700))
         icon = QIcon()
         icon.addFile(u"resources/icons/icon-white.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         Dialog.setWindowIcon(icon)
