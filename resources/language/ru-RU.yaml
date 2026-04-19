@@ -137,3 +137,10 @@ history:
     successful-clear: ""
     copy: "📋 Копировать"
     successful-copy: "✅ Скопировано!"
+
+  message-box:
+    title: "Подтверждение"
+    text: "Вы уверены?"
+    button: 
+      yes_btn: "✅ Да, уверен"
+      no_btn: "❌ Нет, отмена"

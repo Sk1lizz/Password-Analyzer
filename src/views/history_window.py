@@ -5,8 +5,9 @@ from src.utils.edit_data import edit_data
 import darkdetect
 
 from PySide6.QtWidgets import QApplication, QDialog, QTableWidget, QTableWidgetItem
-from PySide6.QtCore import QTimer, Signal
+from PySide6.QtCore import QTimer
 from PySide6.QtWidgets import QHeaderView
+from PySide6.QtWidgets import QMessageBox
 
 class history_app(QDialog):
 
@@ -24,6 +25,7 @@ class history_app(QDialog):
         self.set_default_table()
 
         self.ui.btn_copy.clicked.connect(self.copy)
+        self.ui.btn_clear.clicked.connect(self.clear)
 
     def set_language(self) -> None:
         edit = edit_data(self.paths)
@@ -45,6 +47,8 @@ class history_app(QDialog):
         self.text_bit = data["bit"]
 
         self.button = data["button"]
+
+        self.message_box = data["message-box"]
         
         self.setWindowTitle(name_app)
         self.ui.lbl_name.setText(title)
@@ -53,6 +57,9 @@ class history_app(QDialog):
         self.ui.table.setHorizontalHeaderItem(1, QTableWidgetItem(password_table))
         self.ui.table.setHorizontalHeaderItem(2,QTableWidgetItem(result_table))
         self.ui.table.setHorizontalHeaderItem(3, QTableWidgetItem(entropy_table))
+
+        self.ui.btn_copy.setText(self.button["copy"])
+        self.ui.btn_clear.setText(self.button["clear"])
 
         self.amount = {
             "strong": 0,
@@ -161,3 +168,22 @@ class history_app(QDialog):
         self.ui.btn_copy.setStyleSheet(style)
         QTimer.singleShot(1000, lambda: self.ui.btn_copy.setText(self.button["copy"]))
         #QTimer.singleShot(1000, lambda: self.ui.btn_copy.setStyleSheet(self.style_normal))
+
+    def clear(self) -> None:
+        reply = QMessageBox(self)
+
+        reply.setWindowTitle(self.message_box["title"])
+        reply.setText(self.message_box["text"])
+
+        button_text = self.message_box["button"]
+        print(self.message_box)
+
+        yes_btn = reply.addButton(button_text["yes_btn"], QMessageBox.YesRole)
+        no_btn = reply.addButton(button_text["no_btn"], QMessageBox.NoRole)
+
+        reply.exec()
+
+        if reply.clickedButton() == yes_btn:
+            print(1)
+        else:
+            print(2)
