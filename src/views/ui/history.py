@@ -3,7 +3,7 @@
 # Released under the MIT License
 # https://opensource.org/licenses/MIT
 
-from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
+from PySide6.QtCore import (QByteArray, QCoreApplication, QDate, QDateTime, QLocale,
     QMetaObject, QObject, QPoint, QRect,
     QSize, QTime, QUrl, Qt)
 from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
@@ -15,14 +15,21 @@ from PySide6.QtWidgets import (QAbstractItemView, QApplication, QDialog, QGridLa
     QSpacerItem, QTableWidget, QTableWidgetItem, QVBoxLayout,
     QWidget)
 
+import base64
+
+icon_base64 =  "iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABr0lEQVR4AexTO07DQBC1rRSJlNi4gy7poIMOunTACeAGoeUEcARKuAHcACpK6KCDzpTpLH+kpLC8vDfyWmsDcbCUJkq0T/PZmfd2xxvHWvFvI9A44DUcUZIkE0DVcNY4iz8KKiMiKepugfq6x96snlwmLgVAoHRDlmWjwWBgE0qpvSLfRc2/RUQAjZOCxCKp7/tfOnZd95O5IqZIfXy/xVdFvSUCCGQstm3vwLfCMNyHqDTSZw63OqBdEtfoFxEtIH39fn9Kp9PpvNES2set3nmTJuR5fso+QEQqAki2WmmaHutGCMwNP6oIoHCbm8aHtfRooig6xLVlbIV9Zi38EPWPcRwHGOcYN5Y8hC49z7sRAQYsRmFAqz8sx8HRMOc4zgutgTHI+fK2mMP3G9bJmRcBKjEA+EpmOMkQviycbLcgYjynKIFAj2LKWCklL4+HNfjKVyTPE01cXZwkICmBk30wCZC8BysLpD3sncDKy8OtRyA/MslZKDegQ6DYhr0A6usceyW53sSre9I+LchfaU1UBLgBojtA/sWGfeBeG/wQaEOyqGcjsGg6srfyEX0DAAD///zVChAAAAAGSURBVAMAURz2McPXH7wAAAAASUVORK5CYII="
+image_data = base64.b64decode(icon_base64)
+
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         if not Dialog.objectName():
             Dialog.setObjectName(u"Dialog")
         Dialog.resize(650, 700)
         Dialog.setMinimumSize(QSize(650, 700))
-        icon = QIcon()
-        icon.addFile(u"resources/icons/icon-white.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        pixmap = QPixmap()
+        pixmap.loadFromData(QByteArray(image_data))
+        icon = QIcon(pixmap)
+        #icon.addFile(u"resources/icons/icon-white.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         Dialog.setWindowIcon(icon)
         Dialog.setStyleSheet(u"")
         self.verticalLayout = QVBoxLayout(Dialog)

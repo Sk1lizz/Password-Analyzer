@@ -12,6 +12,7 @@ import darkdetect
 
 from PySide6.QtWidgets import QApplication, QMainWindow
 from PySide6.QtCore import QTimer, Signal
+from PySide6.QtGui import QKeySequence, QShortcut
 
 from src.views.setting_window import setting_app
 from src.views.history_window import history_app
@@ -27,6 +28,8 @@ class generate_app(QMainWindow):
         self.ui = Ui_GenerateWindow()
         self.ui.setupUi(self)
 
+        self.set_shortcut()
+
         self.ui.btn_copy.clicked.connect(self.copy)
         self.ui.btn_setting.clicked.connect(self.open_setting)
         
@@ -35,6 +38,16 @@ class generate_app(QMainWindow):
         self.ui.btn_generate.clicked.connect(self.generate)
         self.ui.btn_main.clicked.connect(self.close)
         self.ui.btn_history.clicked.connect(self.open_history)
+
+
+    def set_shortcut(self) -> None:
+        QShortcut(QKeySequence("Ctrl+C"), self).activated.connect(self.copy)
+
+        QShortcut(QKeySequence("Ctrl+H"), self).activated.connect(self.open_history)
+
+        QShortcut(QKeySequence("Ctrl+S"), self).activated.connect(self.open_setting)
+
+        QShortcut(QKeySequence("Ctrl+Q"), self).activated.connect(self.close)
         
 
     def set_language(self) -> None:

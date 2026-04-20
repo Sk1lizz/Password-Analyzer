@@ -3,7 +3,7 @@
 # Released under the MIT License
 # https://opensource.org/licenses/MIT
 
-from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
+from PySide6.QtCore import (QByteArray, QCoreApplication, QDate, QDateTime, QLocale,
     QMetaObject, QObject, QPoint, QRect,
     QSize, QTime, QUrl, Qt)
 from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
@@ -15,14 +15,21 @@ from PySide6.QtWidgets import (QApplication, QCheckBox, QComboBox, QDialog,
     QSizePolicy, QSpacerItem, QSpinBox, QVBoxLayout,
     QWidget)
 
+import base64
+
+icon_base64 =  "iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABr0lEQVR4AexTO07DQBC1rRSJlNi4gy7poIMOunTACeAGoeUEcARKuAHcACpK6KCDzpTpLH+kpLC8vDfyWmsDcbCUJkq0T/PZmfd2xxvHWvFvI9A44DUcUZIkE0DVcNY4iz8KKiMiKepugfq6x96snlwmLgVAoHRDlmWjwWBgE0qpvSLfRc2/RUQAjZOCxCKp7/tfOnZd95O5IqZIfXy/xVdFvSUCCGQstm3vwLfCMNyHqDTSZw63OqBdEtfoFxEtIH39fn9Kp9PpvNES2set3nmTJuR5fso+QEQqAki2WmmaHutGCMwNP6oIoHCbm8aHtfRooig6xLVlbIV9Zi38EPWPcRwHGOcYN5Y8hC49z7sRAQYsRmFAqz8sx8HRMOc4zgutgTHI+fK2mMP3G9bJmRcBKjEA+EpmOMkQviycbLcgYjynKIFAj2LKWCklL4+HNfjKVyTPE01cXZwkICmBk30wCZC8BysLpD3sncDKy8OtRyA/MslZKDegQ6DYhr0A6usceyW53sSre9I+LchfaU1UBLgBojtA/sWGfeBeG/wQaEOyqGcjsGg6srfyEX0DAAD///zVChAAAAAGSURBVAMAURz2McPXH7wAAAAASUVORK5CYII="
+image_data = base64.b64decode(icon_base64)
+
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         if not Dialog.objectName():
             Dialog.setObjectName(u"Dialog")
         Dialog.resize(550, 611)
         Dialog.setMinimumSize(QSize(550, 600))
-        icon = QIcon()
-        icon.addFile(u"resources/icons/icon-white.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        pixmap = QPixmap()
+        pixmap.loadFromData(QByteArray(image_data))
+        icon = QIcon(pixmap)
+        #icon.addFile(u"resources/icons/icon-white.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         Dialog.setWindowIcon(icon)
         Dialog.setStyleSheet(u"")
         self.verticalLayout = QVBoxLayout(Dialog)
@@ -161,6 +168,7 @@ class Ui_Dialog(object):
 
         self.sb_amount_history = QSpinBox(Dialog)
         self.sb_amount_history.setObjectName(u"sb_amount_history")
+        self.sb_amount_history.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.sb_amount_history.setMinimum(5)
         self.sb_amount_history.setMaximum(50)
 
@@ -206,6 +214,7 @@ class Ui_Dialog(object):
 
         self.comboBox = QComboBox(Dialog)
         self.comboBox.setObjectName(u"comboBox")
+        self.comboBox.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
         sizePolicy1.setHorizontalStretch(0)
         sizePolicy1.setVerticalStretch(0)
@@ -233,6 +242,7 @@ class Ui_Dialog(object):
 
         self.btn_confirm = QPushButton(Dialog)
         self.btn_confirm.setObjectName(u"btn_confirm")
+        self.btn_confirm.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.btn_confirm.setCheckable(False)
         self.btn_confirm.setAutoRepeat(True)
 

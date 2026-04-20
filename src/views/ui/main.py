@@ -3,7 +3,7 @@
 # Released under the MIT License
 # https://opensource.org/licenses/MIT
 
-from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
+from PySide6.QtCore import (QByteArray, QCoreApplication, QDate, QDateTime, QLocale,
     QMetaObject, QObject, QPoint, QRect,
     QSize, QTime, QUrl, Qt)
 from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
@@ -15,14 +15,21 @@ from PySide6.QtWidgets import (QApplication, QGridLayout, QHBoxLayout, QLabel,
     QSizePolicy, QSpacerItem, QVBoxLayout, QWidget)
 import src.views.ui.config_rc as config_rc
 
+import base64
+
+icon_base64 =  "iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABr0lEQVR4AexTO07DQBC1rRSJlNi4gy7poIMOunTACeAGoeUEcARKuAHcACpK6KCDzpTpLH+kpLC8vDfyWmsDcbCUJkq0T/PZmfd2xxvHWvFvI9A44DUcUZIkE0DVcNY4iz8KKiMiKepugfq6x96snlwmLgVAoHRDlmWjwWBgE0qpvSLfRc2/RUQAjZOCxCKp7/tfOnZd95O5IqZIfXy/xVdFvSUCCGQstm3vwLfCMNyHqDTSZw63OqBdEtfoFxEtIH39fn9Kp9PpvNES2set3nmTJuR5fso+QEQqAki2WmmaHutGCMwNP6oIoHCbm8aHtfRooig6xLVlbIV9Zi38EPWPcRwHGOcYN5Y8hC49z7sRAQYsRmFAqz8sx8HRMOc4zgutgTHI+fK2mMP3G9bJmRcBKjEA+EpmOMkQviycbLcgYjynKIFAj2LKWCklL4+HNfjKVyTPE01cXZwkICmBk30wCZC8BysLpD3sncDKy8OtRyA/MslZKDegQ6DYhr0A6usceyW53sSre9I+LchfaU1UBLgBojtA/sWGfeBeG/wQaEOyqGcjsGg6srfyEX0DAAD///zVChAAAAAGSURBVAMAURz2McPXH7wAAAAASUVORK5CYII="
+image_data = base64.b64decode(icon_base64)
+
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
         MainWindow.resize(550, 750)
         MainWindow.setMinimumSize(QSize(550, 750))
-        icon = QIcon()
-        icon.addFile(u"resources/icons/icon-white.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        pixmap = QPixmap()
+        pixmap.loadFromData(QByteArray(image_data))
+        icon = QIcon(pixmap)
+        #icon.addFile(u"resources/icons/icon-white.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         MainWindow.setWindowIcon(icon)
         MainWindow.setStyleSheet(u"QMainWindow {\n"
 "    background-color: #1e1e1e;\n"
@@ -204,6 +211,7 @@ class Ui_MainWindow(object):
         self.gridLayout_6.setObjectName(u"gridLayout_6")
         self.btn_history = QPushButton(self.centralwidget)
         self.btn_history.setObjectName(u"btn_history")
+        self.btn_history.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
 
         self.gridLayout_6.addWidget(self.btn_history, 2, 6, 1, 1)
 
@@ -213,6 +221,7 @@ class Ui_MainWindow(object):
 
         self.btn_generate = QPushButton(self.centralwidget)
         self.btn_generate.setObjectName(u"btn_generate")
+        self.btn_generate.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
 
         self.gridLayout_6.addWidget(self.btn_generate, 2, 4, 1, 1)
 
@@ -230,6 +239,7 @@ class Ui_MainWindow(object):
 
         self.btn_setting = QPushButton(self.centralwidget)
         self.btn_setting.setObjectName(u"btn_setting")
+        self.btn_setting.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
 
         self.gridLayout_6.addWidget(self.btn_setting, 2, 2, 1, 1)
 
@@ -255,6 +265,7 @@ class Ui_MainWindow(object):
 
         self.btn_password = QPushButton(self.centralwidget)
         self.btn_password.setObjectName(u"btn_password")
+        self.btn_password.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
 
         self.gridLayout_5.addWidget(self.btn_password, 0, 1, 1, 1)
 
@@ -273,6 +284,7 @@ class Ui_MainWindow(object):
 
         self.btn_copy = QPushButton(self.centralwidget)
         self.btn_copy.setObjectName(u"btn_copy")
+        self.btn_copy.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
 
         self.horizontalLayout.addWidget(self.btn_copy)
 

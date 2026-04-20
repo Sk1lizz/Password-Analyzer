@@ -10,10 +10,12 @@ from src.utils import edit_data
 import darkdetect
 import re
 
-from PySide6.QtWidgets import QApplication, QDialog, QTableWidget, QTableWidgetItem
+from PySide6.QtWidgets import QApplication, QDialog, QTableWidget, \
+    QTableWidgetItem, QHeaderView, \
+        QMessageBox
 from PySide6.QtCore import QTimer, Qt
-from PySide6.QtWidgets import QHeaderView
-from PySide6.QtWidgets import QMessageBox
+
+from PySide6.QtGui import QKeySequence, QShortcut, QCursor
 
 class history_app(QDialog):
 
@@ -28,12 +30,20 @@ class history_app(QDialog):
         self.ui = Ui_HistoryDialog()
         self.ui.setupUi(self)
 
+        self.set_shortcut()
         self.set_default_table()
 
         self.ui.btn_copy.clicked.connect(self.copy)
         self.ui.btn_clear.clicked.connect(self.clear)
 
         self.ui.table.horizontalHeader().sectionClicked.connect(self.on_header_clicked)
+
+    def set_shortcut(self) -> None:
+        QShortcut(QKeySequence("Ctrl+C"), self).activated.connect(self.copy)
+
+        QShortcut(QKeySequence("Ctrl+Q"), self).activated.connect(self.close)
+
+        QShortcut(QKeySequence("Ctrl+Delete"), self).activated.connect(self.clear)
 
     def set_language(self) -> None:
         edit = edit_data(self.paths)
@@ -334,8 +344,6 @@ class history_app(QDialog):
             self.add_string(tuple(sorted_list_row))
 
 
-
-        
     def copy(self) -> None:
         selected = self.ui.table.selectionModel().selectedRows()
         if not selected: return
@@ -352,21 +360,11 @@ class history_app(QDialog):
         QTimer.singleShot(1000, lambda: self.ui.btn_copy.setText(self.button["copy"]))
         QTimer.singleShot(1000, lambda: self.ui.btn_copy.setStyleSheet(self.style_normal))
 
+
     def clear(self) -> None:
-        state = False
-        reply = QMessageBox(self)
-
-        reply.setWindowTitle(self.message_box["title"])
-        reply.setText(self.message_box["text"])
-
-        button_text = self.message_box["button"]
-
-        yes_btn = reply.addButton(button_text["yes_btn"], QMessageBox.YesRole)
-        no_btn = reply.addButton(button_text["no_btn"], QMessageBox.NoRole)
-
-        reply.exec()
-
-        if reply.clickedButton() == yes_btn:
+        if self.ui.table.rowCount() < 1:
+            return
+        if self.create_message_box():
             self.ui.table.setRowCount(0)
 
             try:
@@ -377,6 +375,33 @@ class history_app(QDialog):
 
         else:
             return None
+        
+
+    def create_message_box(self) -> bool:
+        reply = QMessageBox(self)
+
+        reply.setWindowTitle(self.message_box["title"])
+        reply.setText(self.message_box["text"])
+
+        button_text = self.message_box["button"]
+
+        yes_btn = reply.addButton(button_text["yes_btn"], QMessageBox.YesRole)
+        no_btn = reply.addButton(button_text["no_btn"], QMessageBox.NoRole)
+
+        yes_btn.setShortcut("Return")
+        no_btn.setShortcut("Esc")
+
+        yes_btn.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        no_btn.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        
+
+        reply.exec()
+
+        if reply.clickedButton() == yes_btn:
+            return True
+        
+        else:
+            return False
         
 
     def theme(self) -> None:
