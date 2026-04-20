@@ -168,6 +168,7 @@ class Ui_Dialog(object):
 
         self.sb_amount_history = QSpinBox(Dialog)
         self.sb_amount_history.setObjectName(u"sb_amount_history")
+        self.sb_amount_history.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.sb_amount_history.setMinimum(5)
         self.sb_amount_history.setMaximum(50)
 
@@ -213,6 +214,7 @@ class Ui_Dialog(object):
 
         self.comboBox = QComboBox(Dialog)
         self.comboBox.setObjectName(u"comboBox")
+        self.comboBox.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
         sizePolicy1.setHorizontalStretch(0)
         sizePolicy1.setVerticalStretch(0)
@@ -240,6 +242,7 @@ class Ui_Dialog(object):
 
         self.btn_confirm = QPushButton(Dialog)
         self.btn_confirm.setObjectName(u"btn_confirm")
+        self.btn_confirm.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.btn_confirm.setCheckable(False)
         self.btn_confirm.setAutoRepeat(True)
 

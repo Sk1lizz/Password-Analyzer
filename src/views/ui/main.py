@@ -211,6 +211,7 @@ class Ui_MainWindow(object):
         self.gridLayout_6.setObjectName(u"gridLayout_6")
         self.btn_history = QPushButton(self.centralwidget)
         self.btn_history.setObjectName(u"btn_history")
+        self.btn_history.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
 
         self.gridLayout_6.addWidget(self.btn_history, 2, 6, 1, 1)
 
@@ -220,6 +221,7 @@ class Ui_MainWindow(object):
 
         self.btn_generate = QPushButton(self.centralwidget)
         self.btn_generate.setObjectName(u"btn_generate")
+        self.btn_generate.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
 
         self.gridLayout_6.addWidget(self.btn_generate, 2, 4, 1, 1)
 
@@ -237,6 +239,7 @@ class Ui_MainWindow(object):
 
         self.btn_setting = QPushButton(self.centralwidget)
         self.btn_setting.setObjectName(u"btn_setting")
+        self.btn_setting.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
 
         self.gridLayout_6.addWidget(self.btn_setting, 2, 2, 1, 1)
 
@@ -262,6 +265,7 @@ class Ui_MainWindow(object):
 
         self.btn_password = QPushButton(self.centralwidget)
         self.btn_password.setObjectName(u"btn_password")
+        self.btn_password.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
 
         self.gridLayout_5.addWidget(self.btn_password, 0, 1, 1, 1)
 
@@ -280,6 +284,7 @@ class Ui_MainWindow(object):
 
         self.btn_copy = QPushButton(self.centralwidget)
         self.btn_copy.setObjectName(u"btn_copy")
+        self.btn_copy.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
 
         self.horizontalLayout.addWidget(self.btn_copy)
 

@@ -184,6 +184,7 @@ class setting_app(QDialog):
         for lang in lang_list:
             self.ui.comboBox.addItem(lang)
 
+
         self.ui.comboBox.setCurrentText(language)
         self.ui.sb_amount_history.setValue(count)
 
