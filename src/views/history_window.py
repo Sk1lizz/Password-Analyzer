@@ -15,7 +15,7 @@ from PySide6.QtWidgets import QApplication, QDialog, QTableWidget, \
         QMessageBox
 from PySide6.QtCore import QTimer, Qt
 
-from PySide6.QtGui import QKeySequence, QShortcut
+from PySide6.QtGui import QKeySequence, QShortcut, QCursor
 
 class history_app(QDialog):
 
@@ -390,6 +390,10 @@ class history_app(QDialog):
 
         yes_btn.setShortcut("Return")
         no_btn.setShortcut("Esc")
+
+        yes_btn.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        no_btn.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        
 
         reply.exec()
 
