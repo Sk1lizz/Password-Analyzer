@@ -13,6 +13,7 @@ import darkdetect
 
 from PySide6.QtWidgets import QApplication, QMainWindow, QLineEdit
 from PySide6.QtCore import QTimer
+from PySide6.QtGui import QKeySequence, QShortcut
 
 from src.views.setting_window import setting_app
 from src.views.generate_window import generate_app
@@ -38,6 +39,8 @@ class main_app(QMainWindow):
 
         self.password_hide = True
 
+        self.set_shortcut()
+
         self.ui.btn_password.clicked.connect(lambda function: self.hide_password(change=True))
         self.ui.le_password.textChanged.connect(self.start_program)
         self.ui.btn_copy.clicked.connect(self.copy)
@@ -45,6 +48,18 @@ class main_app(QMainWindow):
         self.ui.btn_setting.clicked.connect(self.open_setting)
         self.ui.btn_generate.clicked.connect(self.open_generate)
         self.ui.btn_history.clicked.connect(self.open_history)
+
+    def set_shortcut(self) -> None:
+        QShortcut(QKeySequence("Ctrl+C"), self).activated.connect(self.copy)
+        QShortcut(QKeySequence("Return"), self).activated.connect(self.copy)
+
+        QShortcut(QKeySequence("Ctrl+G"), self).activated.connect(self.open_generate)
+
+        QShortcut(QKeySequence("Ctrl+H"), self).activated.connect(self.open_history)
+
+        QShortcut(QKeySequence("Ctrl+S"), self).activated.connect(self.open_setting)
+
+        QShortcut(QKeySequence("Ctrl+Q"), self).activated.connect(self.close)
 
     def set_language(self) -> None:
         edit = edit_data(self.paths)

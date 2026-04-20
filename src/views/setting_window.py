@@ -13,6 +13,7 @@ import yaml
 
 from PySide6.QtWidgets import QDialog
 from PySide6.QtCore import QTimer, Signal
+from PySide6.QtGui import QKeySequence, QShortcut
 
 class setting_app(QDialog):
 
@@ -25,11 +26,16 @@ class setting_app(QDialog):
         self.ui = Ui_SettingsDialog()
         self.ui.setupUi(self)
 
+        self.set_shortcut()
+
         self.ui.btn_confirm.clicked.connect(self.confirm_setting)
 
         self.ui.cb_system.clicked.connect(lambda function: self.toggle_setting(system=True, dark=False, light=False))
         self.ui.cb_dark.clicked.connect(lambda function: self.toggle_setting(system=False, dark=True, light=False))
         self.ui.cb_light.clicked.connect(lambda function: self.toggle_setting(system=False, dark=False, light=True))
+
+    def set_shortcut(self) -> None:
+        QShortcut(QKeySequence("Ctrl+Q"), self).activated.connect(self.close)
 
     def set_language(self) -> None:
         edit = edit_data(self.paths)

@@ -36,4 +36,3 @@ def main():
     app = MainApp()
     app.setup(paths)
     app.run()
-
