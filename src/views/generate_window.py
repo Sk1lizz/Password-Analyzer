@@ -30,6 +30,8 @@ class generate_app(QMainWindow):
 
         self.set_shortcut()
 
+        self.ui.password.setText("")
+
         self.ui.btn_copy.clicked.connect(self.copy)
         self.ui.btn_setting.clicked.connect(self.open_setting)
         
@@ -83,7 +85,6 @@ class generate_app(QMainWindow):
         self.ui.btn_history.setText(self.button["history"])
         self.ui.btn_generate.setText(self.button["generate"])
 
-        self.ui.password.setText("")
         self.ui.lbl_text_lenght.setText(self.text_length)
         self.ui.lbl_text_upper.setText(self.text_upper)
         self.ui.lbl_text_lower.setText(self.text_lower)
