@@ -8,14 +8,14 @@ from src.views.ui import Ui_HistoryDialog
 from src.utils import edit_data
 
 import darkdetect
-import re
+import base64
 
 from PySide6.QtWidgets import QApplication, QDialog, QTableWidget, \
     QTableWidgetItem, QHeaderView, \
         QMessageBox
-from PySide6.QtCore import QTimer, Qt
+from PySide6.QtCore import QTimer, Qt, QByteArray
 
-from PySide6.QtGui import QKeySequence, QShortcut, QCursor
+from PySide6.QtGui import QKeySequence, QShortcut, QCursor, QPixmap, QIcon
 
 class history_app(QDialog):
 
@@ -608,3 +608,22 @@ class history_app(QDialog):
             case _:
                 self.setStyleSheet(dark)
                 self.style_normal = "background-color: #2d2d2d;"
+
+        self.set_icon()
+
+    
+    def set_icon(self) -> None:
+        if darkdetect.isLight():
+            icon_base64 = "iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABXUlEQVR4AeyTsTIEQRCGh4hMSEZGRkYmwxPwBqSegEe4kDfgDYiEZGRkhDIlIuP7xvbV7FC1d1t1ibqr/rv7753tf6dnbjZN+DcV6Bzw/xzRIfv+qrAP72X1iGx89kenC2ofYGwrBWweDVZIZhqsEbU53NgiIeBYeD+bjV9y9uOeCNYISRE/pAsnLhYhEGNZsgjWQTQxh6YN3Yg4ZV0WCQF4ttfsU7pvoiHyB4g76cIe67QsUgv4oA92ipc+i/y9FlhsHsbBSmM0m5AYm/EGrr3hrsAz2AZRPyYfhIAEnlxkjIN1HI7G2q2ugM0UWmhqy8RWc3gKgYEEeEu8ii6GZlvF24iQ3L6iwtya5yaPm+fHRr+hgAtdZFTEndhUPFoENpwnhpnvQuLm+d/Zgg+bk7cE5IocmVQ4gNuQ0LLrFkvpruK/BHx+jlOoxCW1XhZn0OvlUV6aCnROaeIj+gYAAP//mYnelwAAAAZJREFUAwDP20IxigFiUgAAAABJRU5ErkJggg=="
+
+        else:
+            icon_base64 =  "iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABr0lEQVR4AexTO07DQBC1rRSJlNi4gy7poIMOunTACeAGoeUEcARKuAHcACpK6KCDzpTpLH+kpLC8vDfyWmsDcbCUJkq0T/PZmfd2xxvHWvFvI9A44DUcUZIkE0DVcNY4iz8KKiMiKepugfq6x96snlwmLgVAoHRDlmWjwWBgE0qpvSLfRc2/RUQAjZOCxCKp7/tfOnZd95O5IqZIfXy/xVdFvSUCCGQstm3vwLfCMNyHqDTSZw63OqBdEtfoFxEtIH39fn9Kp9PpvNES2set3nmTJuR5fso+QEQqAki2WmmaHutGCMwNP6oIoHCbm8aHtfRooig6xLVlbIV9Zi38EPWPcRwHGOcYN5Y8hC49z7sRAQYsRmFAqz8sx8HRMOc4zgutgTHI+fK2mMP3G9bJmRcBKjEA+EpmOMkQviycbLcgYjynKIFAj2LKWCklL4+HNfjKVyTPE01cXZwkICmBk30wCZC8BysLpD3sncDKy8OtRyA/MslZKDegQ6DYhr0A6usceyW53sSre9I+LchfaU1UBLgBojtA/sWGfeBeG/wQaEOyqGcjsGg6srfyEX0DAAD///zVChAAAAAGSURBVAMAURz2McPXH7wAAAAASUVORK5CYII="
+        
+        image_data = base64.b64decode(icon_base64)
+
+        pixmap = QPixmap()
+        pixmap.loadFromData(QByteArray(image_data))
+
+        icon = QIcon(pixmap)
+
+        self.setWindowIcon(icon)
