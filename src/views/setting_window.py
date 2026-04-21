@@ -212,19 +212,6 @@ class setting_app(QDialog):
 
         QDialog {
             background-color: #f5f5f5;
-            color: #000000;
-        }
-
-        QLineEdit {
-            background-color: #ffffff;
-            color: #000000;
-            border: 1px solid #d0d0d0;
-            border-radius: 4px;
-            padding: 5px;
-        }
-
-        QLineEdit:focus {
-            border: 2px solid #1976d2;
         }
 
         QCheckBox {
@@ -232,6 +219,16 @@ class setting_app(QDialog):
             spacing: 8px;
             font-size: 12px;
             padding: 4px 0px;
+        }
+        
+        QCheckBox::indicator {
+            border-radius: 4px;
+            border: 1px solid #000000;
+        }
+        
+        QCheckBox::indicator:checked {
+            background-color: #9966CC;
+            border-color: #000000;
         }
         
         QComboBox {
@@ -260,43 +257,73 @@ class setting_app(QDialog):
         QSpinBox {
             background-color: #ffffff;
             color: #000000;
+        }
+        
+        QPushButton {
+            background-color: #ffffff;
+            color: #000000; 
+            border: 1px solid #d0d0d0;
+            border-radius: 4px;
+            padding: 4px 8px;
+        }
+
+        QPushButton:hover {
+            background-color: #f0f0f0;
+        }
+
+        QPushButton:pressed {
+            background-color: #e0e0e0;
+        }
+
+        QPushButton:checked {
+            background-color: #1976d2;
+            color: #ffffff; 
+            border: none;
         }"""
 
-        css_theme_dark = """QDialog {
+        css_theme_dark = """
+        QWidget {
+            color: #ffffff;
+        }
+        
+        QDialog {
             background-color: #1e1e1e;
         }
 
-        QLineEdit {
-            background-color: #2d2d2d;
-            color: #ffffff;
-            border: 1px solid #3c3c3c;
-            border-radius: 4px;
-            padding: 5px;
-        }
-
-        QLineEdit:focus {
-            border: 2px solid #094771;
-        }
-
         QCheckBox {
+            color: #ffffff;
             spacing: 8px;
             font-size: 12px;
             padding: 4px 0px;
         }
         
+        QCheckBox::indicator {
+            border-radius: 4px;
+            border: 1px solid #ffffff;
+        }
+        
+        QCheckBox::indicator:checked {
+            background-color: #9966CC;
+            border-color: #ffffff;
+        }
+        
         QComboBox {
             background-color: #2d2d2d;
             color: #ffffff;
-            border: 1px solid #3c3c3c;
+            border: 1px solid #2d2d2d;
             border-radius: 4px;
             padding: 5px;
         }
 
         QComboBox:hover {
+            background-color: #2d2d2d;
+            color: #ffffff;
             background-color: #3c3c3c;
         }
 
         QComboBox::drop-down {
+            background-color: #2d2d2d;
+            color: #ffffff;
             border: none;
         }
 
@@ -304,6 +331,33 @@ class setting_app(QDialog):
             background-color: #2d2d2d;
             color: #ffffff;
             selection-background-color: #094771;
+        }
+
+        QPushButton {
+            background-color: #2d2d2d;
+            color: #ffffff;
+            border: 1px solid #3c3c3c;
+            border-radius: 4px;
+            padding: 4px 8px;
+        }
+        
+        QPushButton:hover {
+            background-color: #3c3c3c;
+        }
+
+        QPushButton:pressed {
+            background-color: #1e1e1e;
+        }
+
+        QPushButton:checked {
+            background-color: #094771;
+            color: #ffffff;
+            border: none;
+        }
+        
+        QSpinBox {
+            background-color: #2d2d2d;
+            color: #ffffff;
         }"""
 
         self.style_normal = "background-color: #2d2d2d;"

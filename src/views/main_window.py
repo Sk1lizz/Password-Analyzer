@@ -427,7 +427,12 @@ class main_app(QMainWindow):
         
 
     def theme(self) -> None:
-        self.css_theme_dark = """QMainWindow {
+        self.css_theme_dark = """
+            QWidget {
+                color: #ffffff;
+            }
+
+            QMainWindow {
                 background-color: #1e1e1e;
             }
 

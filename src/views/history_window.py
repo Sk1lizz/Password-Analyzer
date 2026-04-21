@@ -492,7 +492,12 @@ class history_app(QDialog):
             color: #ffffff;
         }"""
 
-        dark = """QDialog {
+        dark = """
+        QWidget {
+            color: #ffffff;
+        }
+
+        QDialog {
             background-color: #1e1e1e;
         }
 

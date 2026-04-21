@@ -191,7 +191,12 @@ class generate_app(QMainWindow):
         history.exec()
 
     def theme(self) -> None:
-        self.css_theme_dark = """QMainWindow {
+        self.css_theme_dark = """
+            QWidget {
+                color: #ffffff;
+            }
+
+            QMainWindow {
                 background-color: #1e1e1e;
             }
 
@@ -229,17 +234,21 @@ class generate_app(QMainWindow):
                 border: none;
             }
 
-            QProgressBar {
-                border: 1px solid #3c3c3c;
-                border-radius: 4px;
-                background-color: #2d2d2d;
+            QCheckBox {
                 color: #ffffff;
-                text-align: center;
+                spacing: 8px;
+                font-size: 12px;
+                padding: 4px 0px;
             }
 
-            QProgressBar::chunk {
-                background-color: #4caf50;
-                border-radius: 3px;
+            QCheckBox::indicator {
+                border-radius: 4px;
+                border: 1px solid #ffffff;
+            }
+            
+            QCheckBox::indicator:checked {
+                background-color: #9966CC;
+                border-color: #ffffff;
             }"""
 
         self.css_theme_light = """QWidget {
@@ -284,17 +293,21 @@ class generate_app(QMainWindow):
                 border: none;
             }
 
-            QProgressBar {
-                border: 1px solid #d0d0d0;
-                border-radius: 4px;
-                background-color: #ffffff;
-                color: #000000; 
-                text-align: center;
+            QCheckBox {
+                color: #000000;
+                spacing: 8px;
+                font-size: 12px;
+                padding: 4px 0px;
             }
-
-            QProgressBar::chunk {
-                background-color: #4caf50;
-                border-radius: 3px;
+            
+            QCheckBox::indicator {
+                border-radius: 4px;
+                border: 1px solid #000000;
+            }
+            
+            QCheckBox::indicator:checked {
+                background-color: #9966CC;
+                border-color: #000000;
             }"""
         
         self.style_normal = "background-color: #2d2d2d;"
